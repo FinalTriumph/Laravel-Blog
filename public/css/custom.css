@@ -1,0 +1,25 @@
+body {
+    margin-bottom: 100px;
+}
+#create_new_post_btn {
+    margin: 0em;
+}
+.alert {
+    width: 70%;
+    margin: 1em auto;
+}
+.post_div_on_image {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0em 5em 2em 5em;
+    background-color: #fff;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+}
+.post_div_background_image {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    max-height: 35em;
+}

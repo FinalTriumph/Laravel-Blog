@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -22,7 +23,12 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('home');
+    {   
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        
+        //orderBy('created_at', 'desc')->paginate(3)
+        
+        return view('home')->with('posts', $user->posts->sortByDesc('created_at'));
     }
 }
