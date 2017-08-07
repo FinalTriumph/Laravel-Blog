@@ -38,3 +38,4 @@ function n(t){return void 0===t||null===t}function r(t){return void 0!==t&&null!
         $(".alert").slideUp(500);
     }, 5000);
 })*/
+/* global $ */

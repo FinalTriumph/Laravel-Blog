@@ -3,7 +3,17 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-2">
+            <div>
+                <p>All ({{ $total }})</p>
+            </div>
+            @foreach($categories as $category)
+                <div>
+                    <p>{{ $category->title }} ({{ $category->count }})</p>
+                </div>
+            @endforeach
+        </div>
+        <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">All Posts</div>
 
@@ -30,6 +40,15 @@
                     @endif
                 </div>
             </div>
+        </div>
+        <div class="col-md-2">
+            <p>Popular Keywords</p>
+            <hr />
+            @foreach($keywords as $keyword)
+                <div>
+                    <p>{{ $keyword->title }} ({{ $keyword->count }})</p>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 use App\Post;
+use App\Category;
+use App\Keyword;
 /* To use MySQL queries
 use DB;
 */
@@ -34,8 +37,34 @@ class PostsController extends Controller
         //$posts = Post::orderBy('created_at', 'desc')->get();
         //$posts = Post::orderBy('created_at', 'desc')->take(3)->get();
         //$posts = Post::all();
+        $crateCategories = array('Business', 'Education', 'Entertainment', 'Fashion', 'Finance', 'Health', 'Lifestyle', 'Relationships', 'Science', 'Sports', 'Technology', 'Travel', 'Web Development', 'Other');
+        $categories;
+        
+        if (count(Category::orderBy('title')->get())) {
+            
+            $categories = Category::orderBy('title')->get();
+        
+        } else {
+            foreach($crateCategories as $category) {
+                $newCategory = new Category;
+                
+                $newCategory->title = $category;
+                
+                $newCategory->save();
+            }
+            $categories = Category::orderBy('title')->get();
+        }
+        $total = Category::sum('count');
+        
         $posts = Post::orderBy('created_at', 'desc')->paginate(3);
-        return view('posts.index')->with('posts', $posts);
+        
+        $keywords = Keyword::orderBy('count', 'desc')->take(10)->get();
+        
+        return view('posts.index')
+            ->with('posts', $posts)
+            ->with('categories', $categories)
+            ->with('total', $total)
+            ->with('keywords', $keywords);
     }
 
     /**
@@ -75,11 +104,24 @@ class PostsController extends Controller
         
         if ($request->input('keywords')) {
             $post->keywords = $request->input('keywords');
+            
+            $allkeywords = array_map('trim',explode(",", $request->input('keywords')));
+            foreach($allkeywords as $keyword) {
+                if(Keyword::where('title', $keyword)->exists()) {
+                    Keyword::where('title', $keyword)->increment('count', 1);
+                } else {
+                    $newKeyword = new Keyword;
+                    
+                    $newKeyword->title = $keyword;
+                    $newKeyword->count = 1;
+                    
+                    $newKeyword->save();
+                }
+            }
         } else {
             $post->keywords = '';
         }
         
-        $hasFail = "No";
         
         if ($request->hasFile('post_image')) {
             
@@ -96,15 +138,16 @@ class PostsController extends Controller
             $response = file_get_contents($imgurURL, false, $context);
             $response = json_decode($response);
             $imglink = $response->data->link;
+            $imgHash = $response->data->id;
             
             $post->cover_image = $imglink;
-            
-            $hasFail = "Yes here it is ".$imglink;
+            $post->image_hash = $imgHash;
         }
         
         $post->save();
+        Category::where('title', $request->input('category'))->increment('count', 1);
         
-        return redirect('/home')->with('success', 'Post created, and image? '.$hasFail);
+        return redirect('/home')->with('success', 'Post created');
         
     }
 
@@ -160,9 +203,37 @@ class PostsController extends Controller
             return redirect('/posts')->with('error', 'Unauthorized Page');
         }
         
-        // Way to remove image from imgur??
+        
+        // Remove image from imgur
+        if ($post->image_hash !== "placeholder") {
+            $imgHash = $post->image_hash;
+            
+            $client = new Client();
+            $res = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
+                'headers' => [
+                    'authorization' => 'Bearer c3d5d3a28eb9596ef0d46e247ff85e8424108a75',
+                ]
+            ]);
+        }
+        ///////
+        
+        $keywords = $post->keywords;
+        if ($keywords !== "") {
+            $allkeywords = array_map('trim',explode(",", $keywords));
+            foreach($allkeywords as $keyword) {
+                $kw = Keyword::where('title', $keyword)->first();
+                if ($kw->count === 1) {
+                    Keyword::find($kw->id)->delete();
+                } else {
+                    Keyword::where('title', $keyword)->decrement('count', 1);
+                }
+            }
+        }
+        
+        Category::where('title', $post->category)->decrement('count', 1);
         
         $post->delete();
+        
         
         return redirect('/home')->with('success', 'Post Removed');
     }
