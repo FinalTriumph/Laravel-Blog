@@ -23,3 +23,16 @@ body {
     overflow: hidden;
     max-height: 35em;
 }
+.like_btn:hover {
+    cursor: pointer;
+}
+.add_comment_form {
+    display: none;
+}
+.comment_div {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1em 2em;
+    margin: 0.2em auto;
+    background-color: #fcfcfc;
+}

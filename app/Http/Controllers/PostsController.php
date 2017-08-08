@@ -7,6 +7,8 @@ use GuzzleHttp\Client;
 use App\Post;
 use App\Category;
 use App\Keyword;
+use App\Like;
+use App\Comment;
 /* To use MySQL queries
 use DB;
 */
@@ -97,7 +99,7 @@ class PostsController extends Controller
         
         $post = new Post;
         
-        $post->user_id = auth()->user()->id;;
+        $post->user_id = auth()->user()->id;
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->category = $request->input('category');
@@ -161,7 +163,63 @@ class PostsController extends Controller
     {
         //
         $post = Post::find($id);
-        return view('posts.showpost')->with('post', $post);
+        //$posts = Post::orderBy('created_at', 'desc')->take(3)->get();
+        $comments = Comment::where('post_id', $id)->orderBy('created_at', 'desc')->paginate(5);
+        
+        return view('posts.showpost')
+                ->with('post', $post)
+                ->with('comments', $comments);
+    }
+    
+    
+    //
+    public function like($id) {
+        $user_id = auth()->user()->id;
+        
+        $like_entry = Like::where(['post_id' => $id, 'user_id' => $user_id])->get();
+        
+        if (count($like_entry)) {
+            Like::where(['post_id' => $id, 'user_id' => $user_id])->delete();
+            
+            Post::find($id)->decrement('likes', 1);
+            
+            $newLikes = Post::find($id)->likes;
+            
+            echo '{ "newLikes": "'.$newLikes.'" }';
+        } else {
+            $addLike = new Like();
+            
+            $addLike->post_id = $id;
+            $addLike->user_id = $user_id;
+            
+            $addLike->save();
+            
+            Post::find($id)->increment('likes', 1);
+            
+            $newLikes = Post::find($id)->likes;
+            
+            echo '{ "newLikes": "'.$newLikes.'" }';
+        }
+    }
+    
+    
+    //
+    public function addComment(Request $request, $id) {
+        $this->validate($request, [
+            'comment' => 'required',
+        ]);
+        
+        $comment = new Comment;
+        
+        $comment->post_id = $id;
+        $comment->user_id = auth()->user()->id;
+        $comment->comment = $request->input('comment');
+        
+        $comment->save();
+        
+        Post::find($id)->increment('comments', 1);
+        
+        return redirect('/posts/'.$id)->with('success', 'Comment added');
     }
 
     /**
@@ -229,6 +287,10 @@ class PostsController extends Controller
                 }
             }
         }
+        
+        Like::where('post_id', $id)->delete();
+        
+        Comment::where('post_id', $id)->delete();
         
         Category::where('title', $post->category)->decrement('count', 1);
         

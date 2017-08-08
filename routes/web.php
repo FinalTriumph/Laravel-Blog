@@ -19,4 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::post('/posts/{post}/like', 'PostsController@like');
+Route::post('/posts/{post}/addcomment', 'PostsController@addComment');
 Route::resource('posts', 'PostsController');

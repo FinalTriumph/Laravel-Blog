@@ -28,8 +28,8 @@
                                     <hr />
                                     <small>Written on {{ $post->created_at }} by {{$post->user->name}}</small>
                                     <div class="pull-right">
-                                        <small>{{ $post->likes }} Likes</small>
-                                        <small>{{ $post->comments }} Comments</small>
+                                        <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} Likes</small>
+                                        <a href="posts/{{ $post->id }}#comments"><small>{{ $post->comments }} Comments</small></a>
                                     </div>
                                 </div>
                             </div>
@@ -52,4 +52,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/like.js') }}"></script>
 @endsection

@@ -39,3 +39,6 @@ function n(t){return void 0===t||null===t}function r(t){return void 0!==t&&null!
     }, 5000);
 })*/
 /* global $ */
+$(".btn").mouseup(function(){
+    $(this).blur();
+});
