@@ -22,7 +22,7 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show', 'showCategory']]);
     }
     
     /**
@@ -35,10 +35,6 @@ class PostsController extends Controller
         //
         //$posts = DB::select('SELECT * FROM posts');
         
-        //$post = Post::where('title', 'Post Title')->get();
-        //$posts = Post::orderBy('created_at', 'desc')->get();
-        //$posts = Post::orderBy('created_at', 'desc')->take(3)->get();
-        //$posts = Post::all();
         $crateCategories = array('Business', 'Education', 'Entertainment', 'Fashion', 'Finance', 'Health', 'Lifestyle', 'Relationships', 'Science', 'Sports', 'Technology', 'Travel', 'Web Development', 'Other');
         $categories;
         
@@ -60,13 +56,54 @@ class PostsController extends Controller
         
         $posts = Post::orderBy('created_at', 'desc')->paginate(3);
         
-        $keywords = Keyword::orderBy('count', 'desc')->take(10)->get();
+        $keywords = Keyword::orderBy('count', 'desc')->take(20)->get();
         
         return view('posts.index')
             ->with('posts', $posts)
             ->with('categories', $categories)
             ->with('total', $total)
             ->with('keywords', $keywords);
+    }
+    
+    //
+    public function showCategory($category) {
+        
+        $posts = Post::where('category', $category)->orderBy('created_at', 'desc')->paginate(3);
+        
+        $categories = Category::orderBy('title')->get();
+        
+        $total = Category::sum('count');
+        
+        $keywords = Keyword::orderBy('count', 'desc')->take(20)->get();
+        
+        $activeCategory = $category;
+        
+        return view('posts.category')
+            ->with('posts', $posts)
+            ->with('categories', $categories)
+            ->with('total', $total)
+            ->with('keywords', $keywords)
+            ->with('activeCategory', $activeCategory);
+    }
+    
+    public function showKeyword($keyword) {
+       
+        $posts = Post::where('keywords', 'LIKE', '%'.$keyword.'%')->orderBy('created_at', 'desc')->paginate(3);
+        
+        $categories = Category::orderBy('title')->get();
+        
+        $total = Category::sum('count');
+        
+        $keywords = Keyword::orderBy('count', 'desc')->take(20)->get();
+        
+        $activeKeyword = $keyword;
+        
+        return view('posts.keyword')
+            ->with('posts', $posts)
+            ->with('categories', $categories)
+            ->with('total', $total)
+            ->with('keywords', $keywords)
+            ->with('activeKeyword', $activeKeyword);
     }
 
     /**
@@ -231,6 +268,14 @@ class PostsController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::find($id);
+        
+        // Check for correct user
+        if (auth()->user()->id !== $post->user_id) {
+            return redirect('/posts')->with('error', 'Unauthorized Page');
+        }
+        
+        return view('posts.edit')->with('post', $post);
     }
 
     /**
@@ -243,6 +288,106 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required',
+            'category' => 'required',
+            'post_image' => 'image|max:4999|nullable'
+        ]);
+        
+        $post = Post::find($id);
+        
+        // Check for correct user
+        if (auth()->user()->id !== $post->user_id) {
+            return redirect('/posts')->with('error', 'Unauthorized Page');
+        }
+        
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        
+        if ($request->input('category') !== $post->category) {
+            Category::where('title', $post->category)->decrement('count', 1);
+            Category::where('title', $request->input('category'))->increment('count', 1);
+            $post->category = $request->input('category');
+        }
+        
+        $submittedKeywords;
+        if ($request->input('keywords')) {
+            $submittedKeywords = $request->input('keywords');
+        } else {
+            $submittedKeywords = "";
+        }
+        
+        if ($submittedKeywords !== $post->keywords) {
+            
+            $oldKeywords = $post->keywords;
+            
+            if ($oldKeywords !== "") {
+                $allOldKeywords = array_map('trim',explode(",", $oldKeywords));
+                foreach($allOldKeywords as $keyword) {
+                    $kw = Keyword::where('title', $keyword)->first();
+                    if ($kw->count === 1) {
+                        Keyword::find($kw->id)->delete();
+                    } else {
+                        Keyword::where('title', $keyword)->decrement('count', 1);
+                    }
+                }
+            }
+            
+            if ($submittedKeywords !== '') {
+                $allNewKeywords = array_map('trim',explode(",", $submittedKeywords));
+                foreach($allNewKeywords as $keyword) {
+                    if(Keyword::where('title', $keyword)->exists()) {
+                        Keyword::where('title', $keyword)->increment('count', 1);
+                    } else {
+                        $newKeyword = new Keyword;
+                    
+                        $newKeyword->title = $keyword;
+                        $newKeyword->count = 1;
+                    
+                        $newKeyword->save();
+                    }
+                }
+            } 
+            
+            $post->keywords = $submittedKeywords;
+        }
+        if ($request->hasFile('post_image')) {
+            // Remove image from imgur
+            if ($post->image_hash !== "placeholder") {
+                $imgHash = $post->image_hash;
+            
+                $client = new Client();
+                $res = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
+                    'headers' => [
+                        'authorization' => 'Bearer c3d5d3a28eb9596ef0d46e247ff85e8424108a75',
+                    ]
+                ]);
+            }
+            ///////
+            // Upload to Imgur and get link
+            $image = base64_encode(file_get_contents($request->file('post_image')));
+            $options = array('http'=>array(
+                'method'=>"POST",
+                'header'=>"Authorization: Bearer c3d5d3a28eb9596ef0d46e247ff85e8424108a75\n".
+                "Content-Type: application/x-www-form-urlencoded",
+                'content'=>$image
+            ));
+            $context = stream_context_create($options);
+            $imgurURL = "https://api.imgur.com/3/image";
+            $response = file_get_contents($imgurURL, false, $context);
+            $response = json_decode($response);
+            $imglink = $response->data->link;
+            $imgHash = $response->data->id;
+            
+            $post->cover_image = $imglink;
+            $post->image_hash = $imgHash;
+        }
+        
+        $post->save();
+        
+        return redirect('/home')->with('success', 'Post updated');
+        
     }
 
     /**

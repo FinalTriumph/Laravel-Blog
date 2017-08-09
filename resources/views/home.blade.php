@@ -3,7 +3,20 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-3">
+            <div>
+                <div class="panel panel-body">
+                    <img src="{{ $user->profile_picture }}" class="img-responsive" />
+                    <br />
+                    <p>{{ $user->name }}</p>
+                    <p>Joined {{ $user->created_at }}</p>
+                    @if(!Auth::guest() && Auth::user()->id === $user->id)
+                        <a href="/user-profile/{{ $user->id }}/edit" class="btn btn-default">Edit Profile</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading">Your posts</div>
                 <div class="panel-body">
@@ -13,10 +26,14 @@
                         @foreach($posts as $post)
                             <div class="well">
                                 <div class=row>
-                                <img src="{{ $post->cover_image }}" class="col-md-4 img-responsive "/>
-                                <div class="col-md-6">
+                                <img src="{{ $post->cover_image }}" class="col-md-5 img-responsive "/>
+                                <div class="col-md-5">
                                     <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h3>
-                                    <small>Written on {{ $post->created_at }}</small><br />
+                                    <small>Category: {{ $post->category }}</small><br />
+                                    <small>Keywords: {{ $post->keywords }}</small><br />
+                                    <br />
+                                    <small>Written on {{ $post->created_at }}</small>
+                                    <br />
                                     <small>{{ $post->likes }} Likes</small>
                                     <small>{{ $post->comments }} Comments</small>
                                 </div>
@@ -31,6 +48,9 @@
                                 </div>
                             </div>
                         @endforeach
+                        <div class="text-center">
+                            {{ $posts->links() }}
+                        </div>
                     @else
                         <p>No posts found</p>
                     @endif

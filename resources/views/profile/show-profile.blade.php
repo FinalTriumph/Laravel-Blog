@@ -3,19 +3,17 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-2">
-            <div class="category_side_btn active_side_category">
-                <a href="/posts"><p>All ({{ $total }})</p></a>
+        <div class="col-md-3">
+            <div class="panel panel-body">
+                <img src="{{ $user->profile_picture }}" class="img-responsive" />
+                <br />
+                <p>{{ $user->name }}</p>
+                <p>Joined {{ $user->created_at }}</p>
             </div>
-            @foreach($categories as $category)
-                <div class="category_side_btn">
-                    <a href="/posts/category/{{ $category->title }}"><p>{{ $category->title }} ({{ $category->count }})</p></a>
-                </div>
-            @endforeach
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="panel panel-default">
-                <div class="panel-heading">All Posts</div>
+                <div class="panel-heading">Posts</div>
 
                 <div class="panel-body">
                     @if(count($posts))
@@ -30,12 +28,7 @@
                                     <hr />
                                     <small>Written on {{ $post->created_at }} by <a href="/user-profile/{{ $post->user->id }}">{{$post->user->name}}</a></small>
                                     <div class="pull-right">
-                                    <!--Way to check if post is liked by logged in user!?-->
-                                    @if(!Auth::guest())
-                                        <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/pSghtg6.png' class="heart_icon"/></small>
-                                    @else
-                                        <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/5098TmX.png' class="heart_icon"/></small>    
-                                    @endif
+                                        <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} Likes</small>
                                         <a href="/posts/{{ $post->id }}#comments"><small>{{ $post->comments }} Comments</small></a>
                                     </div>
                                 </div>
@@ -49,15 +42,6 @@
                     @endif
                 </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            <p>Popular Keywords</p>
-            <hr />
-            @foreach($keywords as $keyword)
-                <div>
-                    <a href="/posts/keyword/{{ $keyword->title }}"><p>{{ $keyword->title }} ({{ $keyword->count }})</p></a>
-                </div>
-            @endforeach
         </div>
     </div>
 </div>

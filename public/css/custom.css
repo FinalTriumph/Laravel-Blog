@@ -36,3 +36,14 @@ body {
     margin: 0.2em auto;
     background-color: #fcfcfc;
 }
+.active_side_category a {
+    color: #000;
+}
+#change_password_form {
+    display: none;
+}
+.heart_icon {
+    height: 1.5em;
+    margin-left: 0.5em;
+    margin-right: 1em;
+}

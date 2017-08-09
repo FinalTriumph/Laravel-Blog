@@ -5,17 +5,17 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Create Post</div>
+                <div class="panel-heading">Edit Post</div>
 
                 <div class="panel-body">
-                    {!! Form::open(['action' => 'PostsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                    {!! Form::open(['action' => ['PostsController@update', $post->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         <div class="form-group">
                             {{ Form::label('title', 'Post Title:') }}
-                            {{ Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title']) }}
+                            {{ Form::text('title', $post->title, ['class' => 'form-control', 'placeholder' => 'Title']) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('body', 'Post Body:') }}
-                            {{ Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body', 'style' => 'resize: vertical']) }}
+                            {{ Form::textarea('body', $post->body, ['class' => 'form-control', 'placeholder' => 'Body', 'style' => 'resize: vertical']) }}
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -35,7 +35,7 @@
                                         'Travel' => 'Travel',
                                         'Web Development' => 'Web Development',
                                         'Other' => 'Other'
-                                    ], null, ['placeholder' => 'Choose category ...']) }}
+                                    ], $post->category, ['placeholder' => 'Choose category ...']) }}
                             </div>
                             <div class="form-group col-md-6">
                                 {{ Form::label('post_image', 'Post Image (optional, max 5MB):') }}
@@ -44,9 +44,10 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('keywords', 'Keywords (optional):') }}
-                            {{ Form::text('keywords', '', ['class' => 'form-control', 'placeholder' => 'keyword1, keyword2, keyword3, ...']) }}
+                            {{ Form::text('keywords', $post->keywords, ['class' => 'form-control', 'placeholder' => 'keyword1, keyword2, keyword3, ...']) }}
                         </div>
-                        {{ Form::submit('Submit', ['class' => 'btn btn-primary']) }}
+                        {{ Form::hidden('_method', 'PUT') }}
+                        {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
                     {!! Form::close() !!}
                 </div>
             </div>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Single Post</div>
 
@@ -12,9 +12,11 @@
                         <div class="well">
                             <img src="{{ $post->cover_image }}" class="img-responsive" />
                             <h3>{{ $post->title }}</h3>
+                            <small>Category: <a href="/posts/category/{{ $post->category }}">{{ $post->category }}</a></small>
+                            <small class="pull-right">Keywords: {{ $post->keywords }}</small><br /><br />
                             <p>{{ $post->body }}</p>
                             <br/>
-                            <small>Written on {{ $post->created_at }} by {{$post->user->name}}</small>
+                            <small>Written on {{ $post->created_at }} by <a href="/user-profile/{{ $post->user->id }}">{{$post->user->name}}</a></small>
                             <small class="like_btn pull-right" data-id="{{ $post->id }}">{{ $post->likes }} Likes</small>
                             @if(!Auth::guest() && Auth::user()->id === $post->user_id)
                                 <hr/>
@@ -49,9 +51,11 @@
                                         <p>{{ $comment->comment }}</p>
                                     </div>
                                 @endforeach
-                                {{ $comments->links() }}
+                                <div class="text-center">
+                                    {{ $comments->links() }}
+                                </div>
                             @else
-                                <p>This post don't have comments yet</p>
+                                <p>This post don't have any comments yet</p>
                             @endif
                         </div>
                     @else
@@ -66,7 +70,7 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/like.js') }}"></script>
+<script src="{{ secure_asset('js/like.js') }}"></script>
 <script type="text/javascript">
 /* global $ */
 $(document).ready(function() {

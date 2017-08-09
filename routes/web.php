@@ -19,6 +19,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/user-profile/{user}', 'ProfileController@showProfile');
+Route::get('/user-profile/{user}/edit', 'ProfileController@edit');
+Route::put('/user-profile/{user}/update', 'ProfileController@update');
+Route::put('/user-profile/{user}/change-password', 'ProfileController@changePassword');
+
+Route::get('/posts/category/{category}', 'PostsController@showCategory');
+Route::get('/posts/keyword/{keyword}', 'PostsController@showKeyword');
 Route::post('/posts/{post}/like', 'PostsController@like');
 Route::post('/posts/{post}/addcomment', 'PostsController@addComment');
 Route::resource('posts', 'PostsController');
