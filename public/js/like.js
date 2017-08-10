@@ -9,8 +9,14 @@ $(".like_btn").click(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(res) {
-            var nLikes = JSON.parse(res).newLikes;
-            $likes.html(nLikes + ' Likes');
+            var data = JSON.parse(res);
+            var nLikes = data.newLikes;
+            var status = data.status;
+            if (status === 'liked') {
+                $likes.html(nLikes + ' <img src="http://i.imgur.com/pSghtg6.png" class="heart_icon"/>');
+            } else {
+                $likes.html(nLikes + ' <img src="http://i.imgur.com/5098TmX.png" class="heart_icon"/>');
+            }
         },
         error: function(res) {
             if (res.status === 401) {

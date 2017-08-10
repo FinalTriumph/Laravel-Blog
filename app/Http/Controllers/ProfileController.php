@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use App\Post;
 use App\User;
+use App\Like;
 use Hash;
 
 class ProfileController extends Controller
@@ -30,9 +31,15 @@ class ProfileController extends Controller
         
         //$activeCategory = $category;
         
+        $likes = array();
+        if (auth()->user()) {
+            $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
+        }
+        
         return view('profile.show-profile')
             ->with('posts', $posts)
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('likes', $likes);
             //->with('categories', $categories)
             //->with('total', $total)
             //->with('keywords', $keywords);

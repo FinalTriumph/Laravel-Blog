@@ -1,5 +1,11 @@
 body {
     margin-bottom: 100px;
+    background-color: #fff;
+    background-image: url('http://i.imgur.com/UWTv9Qr.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover
 }
 #create_new_post_btn {
     margin: 0em;
@@ -43,7 +49,7 @@ body {
     display: none;
 }
 .heart_icon {
-    height: 1.5em;
-    margin-left: 0.5em;
+    height: 1.2em;
+    margin-left: 0.2em;
     margin-right: 1em;
 }

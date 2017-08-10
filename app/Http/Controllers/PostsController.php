@@ -22,7 +22,7 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show', 'showCategory']]);
+        $this->middleware('auth', ['except' => ['index', 'show', 'showCategory', 'showKeyword']]);
     }
     
     /**
@@ -58,11 +58,17 @@ class PostsController extends Controller
         
         $keywords = Keyword::orderBy('count', 'desc')->take(20)->get();
         
+        $likes = array();
+        if (auth()->user()) {
+            $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
+        }
+        
         return view('posts.index')
             ->with('posts', $posts)
             ->with('categories', $categories)
             ->with('total', $total)
-            ->with('keywords', $keywords);
+            ->with('keywords', $keywords)
+            ->with('likes', $likes);
     }
     
     //
@@ -78,12 +84,18 @@ class PostsController extends Controller
         
         $activeCategory = $category;
         
+        $likes = array();
+        if (auth()->user()) {
+            $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
+        }
+        
         return view('posts.category')
             ->with('posts', $posts)
             ->with('categories', $categories)
             ->with('total', $total)
             ->with('keywords', $keywords)
-            ->with('activeCategory', $activeCategory);
+            ->with('activeCategory', $activeCategory)
+            ->with('likes', $likes);
     }
     
     public function showKeyword($keyword) {
@@ -98,12 +110,18 @@ class PostsController extends Controller
         
         $activeKeyword = $keyword;
         
+        $likes = array();
+        if (auth()->user()) {
+            $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
+        }
+        
         return view('posts.keyword')
             ->with('posts', $posts)
             ->with('categories', $categories)
             ->with('total', $total)
             ->with('keywords', $keywords)
-            ->with('activeKeyword', $activeKeyword);
+            ->with('activeKeyword', $activeKeyword)
+            ->with('likes', $likes);
     }
 
     /**
@@ -203,9 +221,15 @@ class PostsController extends Controller
         //$posts = Post::orderBy('created_at', 'desc')->take(3)->get();
         $comments = Comment::where('post_id', $id)->orderBy('created_at', 'desc')->paginate(5);
         
+        $likes = array();
+        if (auth()->user()) {
+            $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
+        }
+        
         return view('posts.showpost')
                 ->with('post', $post)
-                ->with('comments', $comments);
+                ->with('comments', $comments)
+                ->with('likes', $likes);
     }
     
     
@@ -222,7 +246,7 @@ class PostsController extends Controller
             
             $newLikes = Post::find($id)->likes;
             
-            echo '{ "newLikes": "'.$newLikes.'" }';
+            echo '{ "status": "unliked", "newLikes": "'.$newLikes.'" }';
         } else {
             $addLike = new Like();
             
@@ -235,7 +259,7 @@ class PostsController extends Controller
             
             $newLikes = Post::find($id)->likes;
             
-            echo '{ "newLikes": "'.$newLikes.'" }';
+            echo '{ "status": "liked", "newLikes": "'.$newLikes.'" }';
         }
     }
     

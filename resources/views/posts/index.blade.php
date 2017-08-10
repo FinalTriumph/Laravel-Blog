@@ -31,8 +31,12 @@
                                     <small>Written on {{ $post->created_at }} by <a href="/user-profile/{{ $post->user->id }}">{{$post->user->name}}</a></small>
                                     <div class="pull-right">
                                     <!--Way to check if post is liked by logged in user!?-->
-                                    @if(!Auth::guest())
-                                        <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/pSghtg6.png' class="heart_icon"/></small>
+                                    @if(!Auth::guest() && count($likes))
+                                        @if(in_array($post->id, $likes))
+                                            <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/pSghtg6.png' class="heart_icon"/></small>
+                                        @else
+                                            <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/5098TmX.png' class="heart_icon"/></small>
+                                        @endif
                                     @else
                                         <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/5098TmX.png' class="heart_icon"/></small>    
                                     @endif

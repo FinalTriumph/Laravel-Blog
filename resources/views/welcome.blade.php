@@ -8,86 +8,124 @@
         <title>Laravel Blog Example</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
+        <link href="https://fonts.googleapis.com/css?family=Raleway:200,600" rel="stylesheet" type="text/css">
         <!-- Styles -->
         <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
         <style>
             html, body {
-                background-color: #fff;
                 color: #fff;
                 font-family: 'Raleway', sans-serif;
-                font-weight: 100;
                 height: 100vh;
                 margin: 0;
-                background-image: url('http://i.imgur.com/71v8Yzk.jpg');
+                text-align: center;
+                background-image: url('http://i.imgur.com/RkjJiWE.jpg');
                 -webkit-background-size: cover;
                 -moz-background-size: cover;
                 -o-background-size: cover;
                 background-size: cover;
             }
-
-            .full-height {
-                height: 100vh;
-                background-color: rgba(0, 0, 0, 0.5);
+            h1 {
+                margin: 1em 1em 1em 0;
+                font-weight: 200;
+                text-align: right;
             }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
             .content {
-                text-align: center;
+                height: 100vh;
+                background-color: rgba(20, 20, 20, 0.5);
+                word-wrap: break-word;
+                overflow: auto;
+                font-weight: 300;
             }
-
-            .title {
-                font-size: 84px;
+            .top-right {
+                width: 100%;
+                text-align: right;
+                padding-top: 1em;
+                margin-bottom: 5em;
             }
-
-            .links > a {
-                color: #fff;
-                padding: 0 25px;
-                font-size: 12px;
+            .links {
+                font-size: 0.9em;
                 font-weight: 600;
                 letter-spacing: .1rem;
-                text-decoration: none;
+                color: #eee;
                 text-transform: uppercase;
+                text-decoration: none;
             }
-
-            .m-b-md {
-                margin-bottom: 30px;
+            .links a {
+                padding: 0 2em;
+                color: #eee;
+            }
+            .links a:hover {
+                color: #fff;
+                text-decoration: none;
+            }
+            .inline {
+                display: inline-block;
+                vertical-align: top;
+            }
+            .desc {
+                background-color: rgba(0, 0, 0, 0.5);
+                padding: 2em 5em;
+                margin-right: 0em;
+                padding-bottom: 1em;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 5px;
+                -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
+                -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
+                box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
+            }
+            .row {
+                text-align: left;
+            }
+            .left_m {
+                margin-left: 1em;
+            }
+            .b_t {
+                font-weight: 400;
+            }
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="content">
             @if (Route::has('login'))
-                <div class="top-right links">
-                        <a href="/posts">Blog</a>
-                    @auth
-                        <a href="{{ url('/home') }}">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
+            <div class="top-right links">
+                <a href="/posts">Blog</a> |
+                @auth
+                    <a href="{{ url('/home') }}">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}">Login</a> |
+                    <a href="{{ route('register') }}">Register</a>
+                @endauth
+            </div>
             @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel Blog Example
+            <div class="inline">
+                <h1>Laravel Blog</br>Example</h1>
+            </div>
+            <div class="inline desc">
+                <p>This application was made as a part of Laravel/PHP/MySQL programming practice.</p>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6">
+                        <p class="b_t">All users can:</p>
+                        <p class="left_m">- Register new account/login.</p>
+                        <p class="left_m">- Browse through all posts.</p>
+                        <p class="left_m">- View posts by category.</p>
+                        <p class="left_m">- View posts by keyword.</p>
+                        <p class="left_m">- View single post.</p>
+                        <p class="left_m">- View post comments.</p>
+                        <p class="left_m">- View user profiles.</p>
+                    </div>
+                    <div class="col-xs-6">
+                        <p class="b_t">Authenticated users can:</p>
+                        <p class="left_m">- Create new posts.</p>
+                        <p class="left_m">- Edit created posts.</p>
+                        <p class="left_m">- Delete created posts.</p>
+                        <p class="left_m">- Like posts.</p>
+                        <p class="left_m">- Comment posts.</p>
+                        <p class="left_m">- Edit profile.</p>
+                    </div>
                 </div>
+                <hr />
+                <p>Made by FinalTriumph.</p>
             </div>
         </div>
     </body>
