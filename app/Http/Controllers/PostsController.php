@@ -56,7 +56,7 @@ class PostsController extends Controller
         
         $posts = Post::orderBy('created_at', 'desc')->paginate(3);
         
-        $keywords = Keyword::orderBy('count', 'desc')->take(20)->get();
+        $keywords = Keyword::orderBy('count', 'desc')->take(30)->get();
         
         $likes = array();
         if (auth()->user()) {
@@ -80,7 +80,7 @@ class PostsController extends Controller
         
         $total = Category::sum('count');
         
-        $keywords = Keyword::orderBy('count', 'desc')->take(20)->get();
+        $keywords = Keyword::orderBy('count', 'desc')->take(30)->get();
         
         $activeCategory = $category;
         
@@ -106,7 +106,7 @@ class PostsController extends Controller
         
         $total = Category::sum('count');
         
-        $keywords = Keyword::orderBy('count', 'desc')->take(20)->get();
+        $keywords = Keyword::orderBy('count', 'desc')->take(30)->get();
         
         $activeKeyword = $keyword;
         
