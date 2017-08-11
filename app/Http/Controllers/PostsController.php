@@ -221,6 +221,12 @@ class PostsController extends Controller
         //$posts = Post::orderBy('created_at', 'desc')->take(3)->get();
         $comments = Comment::where('post_id', $id)->orderBy('created_at', 'desc')->paginate(5);
         
+        $categories = Category::orderBy('title')->get();
+        
+        $total = Category::sum('count');
+        
+        $keywords = Keyword::orderBy('count', 'desc')->take(30)->get();
+        
         $likes = array();
         if (auth()->user()) {
             $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
@@ -229,7 +235,10 @@ class PostsController extends Controller
         return view('posts.showpost')
                 ->with('post', $post)
                 ->with('comments', $comments)
-                ->with('likes', $likes);
+                ->with('likes', $likes)
+                ->with('categories', $categories)
+                ->with('total', $total)
+                ->with('keywords', $keywords);
     }
     
     

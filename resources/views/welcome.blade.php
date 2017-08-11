@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel Blog Example</title>
+        <title>Laravel Blog</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:200,600" rel="stylesheet" type="text/css">
@@ -28,6 +28,7 @@
                 margin: 1em 1em 1em 0;
                 font-weight: 200;
                 text-align: right;
+                font-size: 3em;
             }
             .content {
                 height: 100vh;
@@ -98,7 +99,7 @@
             </div>
             @endif
             <div class="inline">
-                <h1>Laravel Blog</br>Example</h1>
+                <h1>Laravel</br>Blog</h1>
             </div>
             <div class="inline desc">
                 <p>This application was made as a part of Laravel/PHP/MySQL programming practice.</p>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Post;
+use App\Like;
 
 
 class HomeController extends Controller
@@ -32,8 +33,14 @@ class HomeController extends Controller
         //$posts = $user->posts->sortByDesc('created_at');
         $posts = Post::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(3);
         
+        $likes = array();
+        if (auth()->user()) {
+            $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
+        }
+        
         return view('home')
             ->with('posts', $posts)
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('likes', $likes);
     }
 }

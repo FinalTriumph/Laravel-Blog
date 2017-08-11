@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Keyword '{{ $activeKeyword }}' | Laravel Blog
+@endsection
+
 @section('content')
 <div class="inline-s">
     <a href="/posts" class="btn category_side_btn">All ({{ $total }})</a>
@@ -7,45 +11,51 @@
         <a href="/posts/category/{{ $category->title }}" class="btn category_side_btn">{{ $category->title }} ({{ $category->count }})</a>
     @endforeach
 </div>
-<div class="inline-l">
-    <div class="panel panel-default">
-        <div class="panel-heading">Posts with keyword - '{{ $activeKeyword }}'</div>
-
-        <div class="panel-body">
-            @if(count($posts))
-                @foreach($posts as $post)
-                    <div class="well post_div_background_image">
-                        <img src="{{ $post->cover_image }}" class="img-responsive" />
-                        <div class="post_div_on_image">
-                            <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h3>
-                            <p>{{ str_limit($post->body, $limit = 150, $end = '...') }}</p>
-                            <small>Category: {{ $post->category }}</small>
-                            <small class="pull-right">Keywords: {{ $post->keywords }}</small>
-                            <hr />
-                            <small>Written on {{ $post->created_at }} by <a href="/user-profile/{{ $post->user->id }}">{{$post->user->name}}</a></small>
-                            <div class="pull-right">
-                                @if(!Auth::guest() && count($likes))
-                                    @if(in_array($post->id, $likes))
-                                        <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/pSghtg6.png' class="heart_icon"/></small>
-                                    @else
-                                        <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/5098TmX.png' class="heart_icon"/></small>
-                                    @endif
-                                @else
-                                    <small class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/5098TmX.png' class="heart_icon"/></small>    
-                                @endif
-                                <a href="/posts/{{ $post->id }}#comments"><small>{{ $post->comments }} Comments</small></a>
-                            </div>
-                        </div>
+<div class="inline-l posts_div">
+    <p>Posts with keyword - '{{ $activeKeyword }}'</p>
+    <hr class="cat_hr"/>
+    @if(count($posts))
+        @foreach($posts as $post)
+            <div class="post_div_background_image">
+                <img src="{{ $post->cover_image }}" class="img-responsive" />
+                <div class="post_div_on_image">
+                    <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h3>
+                    <p>{{ str_limit($post->body, $limit = 150, $end = '...') }}</p>
+                    <small>Category: <a href="/posts/category/{{ $post->category }}">{{ $post->category }}</a></small>
+                    @if ($post->keywords != "")
+                        <small class="pull-right">
+                        @foreach(explode(', ', $post->keywords) as $keyword)
+                            <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>,
+                        @endforeach
+                        </small>
+                    @endif
+                    <hr />
+                    <img src="{{ $post->user->profile_picture }}" class="small_prof_pic inline"/>
+                    <div class="inline">
+                        <a href="/user-profile/{{ $post->user->id }}"><p1>{{$post->user->name}}</p1></a><br />
+                        <small>{{ date('F d, Y', strtotime($post->created_at)) }}</small>
                     </div>
-                @endforeach
-                <div class="text-center">
-                    {{ $posts->links() }}
+                    <div class="pull-right likes_comments">
+                    @if(!Auth::guest() && count($likes))
+                        @if(in_array($post->id, $likes))
+                            <p1 class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/pSghtg6.png' class="heart_icon"/></p1>
+                        @else
+                            <p1 class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/5098TmX.png' class="heart_icon"/></p1>
+                        @endif
+                    @else
+                        <p1 class="like_btn" data-id="{{ $post->id }}">{{ $post->likes }} <img src='http://i.imgur.com/5098TmX.png' class="heart_icon"/></p1>    
+                    @endif
+                        <a href="/posts/{{ $post->id }}#comments"><p1>{{ $post->comments }} <img src="http://i.imgur.com/bXww3RY.png" class="comment_icon"/></p1></a>
+                    </div>
                 </div>
-            @else
-                <p>No posts found</p>
-            @endif
+            </div>
+        @endforeach
+        <div class="text-center">
+            {{ $posts->links() }}
         </div>
-    </div>
+    @else
+        <p>No posts found</p>
+    @endif
 </div>
 <div class="inline-s keywords_div">
     <p>{{ count($keywords) }} Most Popular Keywords</p>
