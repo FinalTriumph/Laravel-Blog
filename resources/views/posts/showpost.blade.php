@@ -19,7 +19,11 @@
                 {{Form::submit('Delete', ['class' => 'btn btn-danger sp_edit_delete'])}}
             {!!Form::close()!!}
         @endif
-        <img src="{{ $post->cover_image }}" class="img-responsive single_post_img" />
+        @if($post->cover_image == 'none')
+            <img src="http://i.imgur.com/RkjJiWE.jpg" class="img-responsive single_post_img"/>
+        @else
+            <img src="{{ $post->cover_image }}" class="img-responsive single_post_img"/>
+        @endif
         <h3>{{ $post->title }}</h3>
         <small>Category: <a href="/posts/category/{{ $post->category }}">{{ $post->category }}</a></small>
         @if ($post->keywords != "")

@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->integer('user_id');
             $table->string('title');
             $table->mediumText('body');
-            $table->string('cover_image')->default('http://i.imgur.com/TU2nsZm.jpg');
+            $table->string('cover_image')->default('none');
             $table->string('category');
             $table->text('keywords');
             $table->integer('likes')->default(0);

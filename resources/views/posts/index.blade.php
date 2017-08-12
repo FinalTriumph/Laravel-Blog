@@ -15,7 +15,13 @@
     @if(count($posts))
         @foreach($posts as $post)
             <div class="post_div_background_image">
-                <a href="/posts/{{ $post->id }}"><img src="{{ $post->cover_image }}" class="img-responsive" /></a>
+                <a href="/posts/{{ $post->id }}">
+                    @if($post->cover_image == 'none')
+                    <img src="http://i.imgur.com/RkjJiWE.jpg" class="img-responsive"/>
+                    @else
+                        <img src="{{ $post->cover_image }}" class="img-responsive"/>
+                @endif
+                </a>
                 <div class="post_div_on_image">
                     <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h3>
                     <p>{{ str_limit($post->body, $limit = 150, $end = '...') }}</p>

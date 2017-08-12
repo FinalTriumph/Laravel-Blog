@@ -19,7 +19,13 @@
     @if(count($posts))
         @foreach($posts as $post)
             <div class="dashboard_post_div">
-                <img src="{{ $post->cover_image }}" class="img-responsive inline-db-i"/>
+                <a href="/posts/{{ $post->id }}">
+                    @if($post->cover_image == 'none')
+                        <img src="http://i.imgur.com/RkjJiWE.jpg" class="img-responsive inline-db-i"/>
+                    @else
+                        <img src="{{ $post->cover_image }}" class="img-responsive inline-db-i"/>
+                    @endif
+                </a>
                 <div class="inline-db">
                     <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h3>
                     <small>Category: <a href="/posts/category/{{ $post->category }}">{{ $post->category }}</a></small><br />
