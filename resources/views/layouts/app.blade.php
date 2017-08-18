@@ -34,8 +34,8 @@
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu" role="menu">
-                            <a href="/user-profile/{{ Auth::user()->id }}/edit" class="btn">Edit Profile</a>
                             <a href="/posts/create" class="btn">Create New Post</a>
+                            <a href="/user-profile/{{ Auth::user()->id }}/edit" class="btn">Edit Profile</a>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn">Logout</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}

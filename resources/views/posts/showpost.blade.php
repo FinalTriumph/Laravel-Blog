@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="inline-s">
-    <a href="/posts" class="btn category_side_btn active_side_category">All ({{ $total }})</a>
+    <a href="/posts" class="btn category_side_btn">All ({{ $total }})</a>
     @foreach($categories as $category)
         <a href="/posts/category/{{ $category->title }}" class="btn category_side_btn">{{ $category->title }} ({{ $category->count }})</a>
     @endforeach
@@ -118,10 +118,15 @@ $(".add_comment_btn").click(function() {
         if ($(".add_comment_form").is(":hidden")) {
             $('html, body').animate({
                 scrollTop: $('#c_line').offset().top
-            }, 500);
-            $(".add_comment_btn span").html('<img src="http://i.imgur.com/D6TqF0Z.png" class="ac_open_close">');
+            }, 500, function() {
+                $(".add_comment_btn span").html('<img src="http://i.imgur.com/D6TqF0Z.png" class="ac_open_close">');
+            });
+            //$(".add_comment_btn span").html('<img src="http://i.imgur.com/D6TqF0Z.png" class="ac_open_close">');
         } else {
-            $(".add_comment_btn span").html('<img src="http://i.imgur.com/EpAaK4G.png" class="ac_open_close">');
+            setTimeout(function() {
+                $(".add_comment_btn span").html('<img src="http://i.imgur.com/EpAaK4G.png" class="ac_open_close">');
+            }, 500);
+            //$(".add_comment_btn span").html('<img src="http://i.imgur.com/EpAaK4G.png" class="ac_open_close">');
         }
         $(".add_comment_form").slideToggle(500);
     });

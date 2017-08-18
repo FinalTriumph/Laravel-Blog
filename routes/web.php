@@ -23,6 +23,7 @@ Route::get('/user-profile/{user}', 'ProfileController@showProfile');
 Route::get('/user-profile/{user}/edit', 'ProfileController@edit');
 Route::put('/user-profile/{user}/update', 'ProfileController@update');
 Route::put('/user-profile/{user}/change-password', 'ProfileController@changePassword');
+Route::delete('/user-profile/{user}/destroy', 'ProfileController@destroy');
 
 Route::get('/posts/category/{category}', 'PostsController@showCategory');
 Route::get('/posts/keyword/{keyword}', 'PostsController@showKeyword');

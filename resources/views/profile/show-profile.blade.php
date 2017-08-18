@@ -8,8 +8,12 @@
 <div class="inline-m profile_info_div">
     <img src="{{ $user->profile_picture }}" class="img-responsive" />
     <br />
-    <p>{{ $user->name }}</p>
-    <p>Joined {{ date('F d, Y', strtotime($user->created_at)) }}</p>
+    <strong>{{ $user->name }}</strong>
+    <hr class="prof_hr"/>
+    @if($user->about)
+        <p>{{ $user->about }}</p>
+    @endif
+    <small>Joined {{ date('F d, Y', strtotime($user->created_at)) }}</small>
 </div>
 <div class="inline-l posts_div">
     @if(count($posts))
@@ -25,8 +29,14 @@
                 <div class="post_div_on_image">
                     <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h3>
                     <p>{{ str_limit($post->body, $limit = 150, $end = '...') }}</p>
-                    <small>Category: {{ $post->category }}</small>
-                    <small class="pull-right">Keywords: {{ $post->keywords }}</small>
+                    <small>Category: <a href="/posts/category/{{ $post->category }}">{{ $post->category }}</a></small>
+                    @if ($post->keywords != "")
+                        <small class="pull-right">
+                        @foreach(explode(', ', $post->keywords) as $keyword)
+                            <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>, 
+                        @endforeach
+                        </small>
+                    @endif
                     <hr />
                     <small>{{ date('F d, Y', strtotime($post->created_at)) }}</small>
                     <div class="pull-right likes_comments">

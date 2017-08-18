@@ -27,20 +27,22 @@ a:hover {
     width: 100%;
     height: 3.4em;
     padding: 0.9em 2em;
-    background-color: #222;
+    background-color: #101010;
     color: #eee;
 }
 #header a {
     font-size: 0.9em;
     font-weight: 600;
     letter-spacing: .1rem;
-    color: #eee;
+    //color: #eee;
+    color: #3097D1;
     padding: 0 1em;
     text-transform: uppercase;
     text-decoration: none;
 }
 #header a:hover {
     color: #fff;
+    //color: #216a94;
 }
 .logo_t {
     margin-left: 2em;
@@ -66,7 +68,7 @@ a:hover {
     border-radius: 0;
 }
 .dropdown-menu a:hover {
-    background-color: #222;
+    background-color: #101010;
 }
 .alert {
     width: 70%;
@@ -76,6 +78,17 @@ a:hover {
     background-color: #fff;
     width: 100%;
     padding: 1em 2em;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+}
+.create_post_div {
+    background-color: #fff;
+    padding: 1em 2em;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
@@ -107,6 +120,17 @@ a:hover {
 .cat_hr {
     border-color: #777;
     margin: 0 auto 1.5em auto;
+}
+.cr_n_p_hr {
+    border-color: #777;
+    margin: 0.7em auto 1em auto;
+}
+#cp_line, #da_line {
+    margin: 0em auto 1.5em auto;
+    border-color: #bbb;
+}
+.prof_hr {
+    margin: 1em auto;
 }
 .post_div_on_image h3 {
     margin: 0;
@@ -193,17 +217,18 @@ a:hover {
 .profile_info_div {
     margin: 1em 1% auto 4%;
     background-color: #fff;
-    padding: 1em;
-    -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
-    -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
-    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
+    padding: 1.5em;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
 }
 .dashboard_post_div {
     padding: 1em;
     margin-bottom: 1em;
-    -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
-    -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
-    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
 }
 .comment_link_i, .comment_link_i:hover {
     color: #000;
@@ -214,14 +239,13 @@ a:hover {
     width: 80%;
     margin: auto;
     text-align: right;
-    color: #444;
+    color: #222;
     border-radius: 0;
     border-bottom: 1px solid #ddd;
     //border-top: 0;
     padding-top: 0.7em;
     padding-bottom: 0.7em;
     padding-right: 1.5em;
-    //font-family: 'Josefin Sans', sans-serif;
     font-family: 'Catamaran', sans-serif;
 }
 .category_side_btn:hover {
@@ -236,11 +260,13 @@ a:hover {
     width: 18%;
     margin-left: 1%;
     background-color: #fafafa;
-    //border: 1px solid #ddd;
-    //border-radius: 3px;
+    border-radius: 3px;
     padding: 1em;
     text-align: left;
     font-family: 'Catamaran', sans-serif;
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
 }
 .keywords_div hr {
     border-color: #ddd;
@@ -262,7 +288,7 @@ a:hover {
     color: #999;
     text-decoration: none;
 }
-#change_password_form {
+#change_password_form, #delete_account_form {
     display: none;
 }
 .heart_icon {
@@ -275,8 +301,22 @@ a:hover {
     height: 1.3em;
     margin: 0em 0.5em auto 0.3em;
 }
+.pagination li a,
+.pagination .disabled span,
+.pagination .active span {
+    border-color: #fff;
+}
+.pagination li a:hover {
+    border-color: #fff;
+    background-color: #fff;
+    text-decoration: underline;
+}
+.pagination .disabled span:hover,
+.pagination .active span:hover {
+    border-color: #fff;
+}
 /* buttons */
-.add_comment_btn {
+.add_comment_btn, .change_password_btn, .delete_account_btn {
     padding: 0.2em 2em;
     margin: 0;
 }
@@ -303,13 +343,27 @@ a:hover {
     background-color: #aa4a24;
     color: #fff;
 }
-.submit_comment_btn {
+.submit_comment_btn, .submit_new_post_btn {
     padding: 0.2em 5em;
     margin: 1em auto 1.5em auto;
     background-color: #fff;
     color: #1f648b;
     border-color: #1f648b;
 }
+.submit_comment_btn:hover, .submit_new_post_btn:hover {
+    background-color: #216a94;
+}
 #create_new_post_btn {
-    padding: 0.2em 5em;
+    padding: 0.2em;
+    margin-bottom: 1em;
+    width: 47%;
+}
+#edit_profile_btn {
+    margin-top: 1.5em;
+    padding: 0.2em;
+    width: 100%;
+}
+.del_acc_submit {
+    padding: 0.3em 3em;
+    margin-bottom: 2em;
 }

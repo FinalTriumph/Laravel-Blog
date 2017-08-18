@@ -115,6 +115,10 @@ class ProfileController extends Controller
             $user->image_hash = $imgHash;
         }
         
+        if ($request->input('about')) {
+            $user->about = $request->input('about');
+        }
+        
         $user->save();
         
         return redirect('/user-profile/'.$id.'/edit')->with('success', 'Profile updated');
@@ -153,4 +157,7 @@ class ProfileController extends Controller
         }
         
     }
+     public function destroy($id) {
+        echo 'this is delete account path';
+     }
 }

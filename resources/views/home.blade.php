@@ -8,10 +8,14 @@
 <div class="inline-m profile_info_div">
     <img src="{{ $user->profile_picture }}" class="img-responsive" />
     <br />
-    <p>{{ $user->name }}</p>
-    <p>Joined {{ date('F d, Y', strtotime($user->created_at)) }}</p>
+    <strong>{{ $user->name }}</strong>
+    <hr class="prof_hr"/>
+    @if($user->about)
+        <p>{{ $user->about }}</p>
+    @endif
+    <small>Joined {{ date('F d, Y', strtotime($user->created_at)) }}</small>
     @if(!Auth::guest() && Auth::user()->id === $user->id)
-        <a href="/user-profile/{{ $user->id }}/edit" class="btn btn-default">Edit Profile</a>
+        <a href="/user-profile/{{ $user->id }}/edit" class="btn btn-default" id="edit_profile_btn">Edit Profile</a>
     @endif
 </div>
 <div class="inline-l posts_div">
