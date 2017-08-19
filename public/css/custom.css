@@ -1,48 +1,47 @@
+html{
+    min-height: 100%;
+    position: relative;
+}
 body {
-    margin-bottom: 100px;
-    background-color: #eee;
+    height: 100%;
+    margin-bottom: 1em;
     color: #000;
     background-image: url('http://i.imgur.com/UWTv9Qr.png');
     background-size: 100% 100%;
     background-attachment: fixed;
-    //-webkit-background-size: cover;
-    //-moz-background-size: cover;
-    //-o-background-size: cover;
-    //background-size: cover;
 }
 a:hover {
     text-decoration: none;
 }
-.form-control {
-}
 .form-control:focus {
     border-color: #bbb;
-    //border-color: #2a88bd;
-    //border-color: #1f648b;
     -webkit-box-shadow: 0px 0px 2px 0px rgba(150,150,150,0.3);
     -moz-box-shadow: 0px 0px 2px 0px rgba(150,150,150,0.3);
     box-shadow: 0px 0px 2px 0px rgba(150,150,150,0.3);
 }
 #header {
     width: 100%;
-    height: 3.4em;
-    padding: 0.9em 2em;
-    background-color: #101010;
-    color: #eee;
+    height: 3.6em;
+    padding: 1em 2em;
+    background-color: #111;
+    color: #fff;
+    border-bottom: 1px solid #222;
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 }
 #header a {
     font-size: 0.9em;
     font-weight: 600;
     letter-spacing: .1rem;
+    color: #3097d1;
     //color: #eee;
-    color: #3097D1;
     padding: 0 1em;
     text-transform: uppercase;
     text-decoration: none;
 }
 #header a:hover {
     color: #fff;
-    //color: #216a94;
 }
 .logo_t {
     margin-left: 2em;
@@ -51,10 +50,9 @@ a:hover {
     display: inline-block;
 }
 .dropdown-menu {
-    background-color: #222;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: #111;
     margin-left: -5em;
-    margin-top: 0.9em;
+    margin-top: 1em;
     box-shadow: none;
     border: none;
     border-radius: 1px;
@@ -66,9 +64,10 @@ a:hover {
     width: 100%;
     text-align: right;
     border-radius: 0;
+    border-bottom: 1px solid #222;
 }
 .dropdown-menu a:hover {
-    background-color: #101010;
+    background-color: #222;
 }
 .alert {
     width: 70%;
@@ -187,7 +186,11 @@ a:hover {
     display: inline-block;
     vertical-align: top;
 }
-.inline-s, .inline-l, .inline-m, .inline-db, .inline-db-i {
+.inline-s, 
+.inline-l, 
+.inline-m, 
+.inline-db, 
+.inline-db-i {
     display: inline-block;
     vertical-align: top;
 }
@@ -236,17 +239,22 @@ a:hover {
 .category_side_btn {
     //background-color: #fafafa;
     //background-color: rgba(255, 255, 255, 0.7);
-    width: 80%;
+    width: 90%;
     margin: auto;
     text-align: right;
     color: #222;
     border-radius: 0;
     border-bottom: 1px solid #ddd;
     //border-top: 0;
-    padding-top: 0.7em;
-    padding-bottom: 0.7em;
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
     padding-right: 1.5em;
-    font-family: 'Catamaran', sans-serif;
+    //font-family: 'Catamaran', sans-serif;
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    //color: #3097d1;
+    text-transform: uppercase;
 }
 .category_side_btn:hover {
     background-color: #fff;
@@ -263,7 +271,7 @@ a:hover {
     border-radius: 3px;
     padding: 1em;
     text-align: left;
-    font-family: 'Catamaran', sans-serif;
+    //font-family: 'Catamaran', sans-serif;
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
@@ -316,7 +324,9 @@ a:hover {
     border-color: #fff;
 }
 /* buttons */
-.add_comment_btn, .change_password_btn, .delete_account_btn {
+.add_comment_btn, 
+.change_password_btn, 
+.delete_account_btn {
     padding: 0.2em 2em;
     margin: 0;
 }
@@ -346,12 +356,6 @@ a:hover {
 .submit_comment_btn, .submit_new_post_btn {
     padding: 0.2em 5em;
     margin: 1em auto 1.5em auto;
-    background-color: #fff;
-    color: #1f648b;
-    border-color: #1f648b;
-}
-.submit_comment_btn:hover, .submit_new_post_btn:hover {
-    background-color: #216a94;
 }
 #create_new_post_btn {
     padding: 0.2em;

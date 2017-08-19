@@ -18,7 +18,7 @@
                 height: 100vh;
                 margin: 0;
                 text-align: center;
-                background-image: url('http://i.imgur.com/RkjJiWE.jpg');
+                background-image: url('http://i.imgur.com/6u1aQRO.jpg');
                 -webkit-background-size: cover;
                 -moz-background-size: cover;
                 -o-background-size: cover;
@@ -32,7 +32,7 @@
             }
             .content {
                 height: 100vh;
-                background-color: rgba(20, 20, 20, 0.5);
+                background-color: rgba(20, 20, 20, 0.3);
                 word-wrap: break-word;
                 overflow: auto;
                 font-weight: 300;

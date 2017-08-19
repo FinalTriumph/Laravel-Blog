@@ -7,6 +7,9 @@ use GuzzleHttp\Client;
 use App\Post;
 use App\User;
 use App\Like;
+use App\Keyword;
+use App\Comment;
+use App\Category;
 use Hash;
 
 class ProfileController extends Controller
@@ -157,7 +160,77 @@ class ProfileController extends Controller
         }
         
     }
-     public function destroy($id) {
-        echo 'this is delete account path';
-     }
+     public function destroy(Request $request, $id) {
+         
+        if (auth()->user()->id != $id) {
+            return redirect('/user-profile/'.$id)->with('error', 'Unauthorized Page');
+        }
+        
+        $this->validate($request, [
+            'profile_password' => 'required',
+        ]);
+        
+        $user = User::find($id);
+        
+        if(Hash::check($request->input('profile_password'), $user->password)){
+            
+            //remove profile image from imgur
+            //take care of tokens and then check if everything else works
+            if ($user->image_hash !== "placeholder") {
+                $imgHash = $user->image_hash;
+                
+                $client = new Client();
+                $res = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
+                    'headers' => [
+                        'authorization' => 'Bearer c3d5d3a28eb9596ef0d46e247ff85e8424108a75',
+                    ]
+                ]);
+            }
+            
+            $posts = Post::where('user_id', $id)->get();
+            
+            //remove all posts
+            foreach($posts as $post) {
+                if ($post->image_hash !== "placeholder") {
+                    $imgHash = $post->image_hash;
+                    
+                    $client = new Client();
+                    $res = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
+                        'headers' => [
+                            'authorization' => 'Bearer c3d5d3a28eb9596ef0d46e247ff85e8424108a75',
+                        ]
+                    ]);
+                }
+                ///////
+                
+                $keywords = $post->keywords;
+                if ($keywords !== "") {
+                    $allkeywords = array_map('trim',explode(",", $keywords));
+                    foreach($allkeywords as $keyword) {
+                        $kw = Keyword::where('title', $keyword)->first();
+                        if ($kw->count === 1) {
+                            Keyword::find($kw->id)->delete();
+                        } else {
+                            Keyword::where('title', $keyword)->decrement('count', 1);
+                        }
+                    }
+                }
+                
+                Like::where('post_id', $id)->delete();
+                
+                Comment::where('post_id', $id)->delete();
+                
+                Category::where('title', $post->category)->decrement('count', 1);
+                
+                Post::find($post->id)->delete();
+            }
+            
+            //remove profile
+            $user->delete();
+            
+            return redirect('/posts')->with('success', 'Account deleted successfully');
+        } else {
+            return redirect('/user-profile/'.$id.'/edit')->with('error', 'Incorrect password');
+        }
+    }
 }
