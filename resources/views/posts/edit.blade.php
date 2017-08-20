@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Edit Post | Laravel Blog
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-8 col-md-offset-2 create_post_div">
@@ -12,7 +16,7 @@
             </div>
             <div class="form-group">
                 {{ Form::label('body', 'Post Body:') }}
-                {{ Form::textarea('body', $post->body, ['class' => 'form-control', 'placeholder' => 'Body', 'style' => 'resize: vertical']) }}
+                {{ Form::textarea('body', $post->body, ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Body', 'style' => 'resize: vertical']) }}
             </div>
             <div class="row">
                 <div class="form-group col-md-6">

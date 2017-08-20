@@ -5,13 +5,16 @@
 @endsection
 
 @section('content')
-<div class="inline-s">
+<div class="inline-s category_side_div">
     <a href="/posts" class="btn category_side_btn active_side_category">All ({{ $total }})</a>
     @foreach($categories as $category)
+        @if($category->title != "Other")
         <a href="/posts/category/{{ $category->title }}" class="btn category_side_btn">{{ $category->title }} ({{ $category->count }})</a>
+        @endif
     @endforeach
+    <a href="/posts/category/Other" class="btn category_side_btn">Other ({{ $categories[7]['count'] }})</a>
 </div>
-<div class="inline-l posts_div">
+<div class="inline-l posts_div posts_div_w_m">
     @if(count($posts))
         @foreach($posts as $post)
             <div class="post_div_background_image">
@@ -24,12 +27,17 @@
                 </a>
                 <div class="post_div_on_image">
                     <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h3>
-                    <p>{{ str_limit($post->body, $limit = 150, $end = '...') }}</p>
+                    <!--<p>{{ str_limit($post->body, $limit = 150, $end = '...') }}</p>-->
+                    <p>{{ \Illuminate\Support\Str::words(strip_tags($post->body), 30, ' ...') }}</p>
                     <small>Category: <a href="/posts/category/{{ $post->category }}">{{ $post->category }}</a></small>
                     @if ($post->keywords != "")
                         <small class="pull-right">
                         @foreach(explode(', ', $post->keywords) as $keyword)
-                            <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>, 
+                            @if(explode(', ', $post->keywords)[count(explode(', ', $post->keywords)) - 1] == $keyword )
+                                <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>
+                            @else
+                                <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>,
+                            @endif
                         @endforeach
                         </small>
                     @endif
@@ -62,7 +70,7 @@
     @endif
 </div>
 <div class="inline-s keywords_div">
-    <p>{{ count($keywords) }} Most Popular Keywords</p>
+    <p>Popular Keywords</p>
     <hr/>
     @foreach($keywords as $keyword)
         @if($loop->iteration < 11)

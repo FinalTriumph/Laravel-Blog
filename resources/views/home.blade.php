@@ -36,7 +36,11 @@
                     @if ($post->keywords != "")
                         <small>Keywords: 
                         @foreach(explode(', ', $post->keywords) as $keyword)
-                            <a href="/posts/keyword/{{ $keyword }}">{{$keyword}}</a>, 
+                            @if(explode(', ', $post->keywords)[count(explode(', ', $post->keywords)) - 1] == $keyword )
+                                <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>
+                            @else
+                                <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>,
+                            @endif
                         @endforeach
                         </small><br />
                     @endif

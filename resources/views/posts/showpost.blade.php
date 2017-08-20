@@ -4,13 +4,16 @@
 @endsection
 
 @section('content')
-<div class="inline-s">
+<div class="inline-s category_side_div">
     <a href="/posts" class="btn category_side_btn">All ({{ $total }})</a>
     @foreach($categories as $category)
+        @if($category->title != "Other")
         <a href="/posts/category/{{ $category->title }}" class="btn category_side_btn">{{ $category->title }} ({{ $category->count }})</a>
+        @endif
     @endforeach
+    <a href="/posts/category/Other" class="btn category_side_btn">Other ({{ $categories[7]['count'] }})</a>
 </div>
-<div class="inline-l posts_div single_post_div">
+<div class="inline-l posts_div single_post_div ">
     @if($post)
         @if(!Auth::guest() && Auth::user()->id === $post->user_id)
             <a href="/posts/{{$post->id}}/edit" class="btn btn-default sp_edit_delete">Edit</a>
@@ -29,11 +32,15 @@
         @if ($post->keywords != "")
             <small class="pull-right">
                 @foreach(explode(', ', $post->keywords) as $keyword)
-                    <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>, 
+                    @if(explode(', ', $post->keywords)[count(explode(', ', $post->keywords)) - 1] == $keyword )
+                        <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>
+                    @else
+                        <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>,
+                    @endif 
                 @endforeach
             </small>
         @endif
-        <p>{{ $post->body }}</p>
+        <p>{!! $post->body !!}</p>
         <img src="{{ $post->user->profile_picture }}" class="small_prof_pic inline"/>
         <div class="inline">
             <a href="/user-profile/{{ $post->user->id }}"><p1>{{$post->user->name}}</p1></a><br />
@@ -65,10 +72,24 @@
         @if(count($comments))
             @foreach($comments as $comment)
                 <div class="comment_div">
-                    <img src="{{ $comment->user->profile_picture }}" class="small_prof_pic inline"/>
+                    @if(!Auth::guest() && (Auth::user()->id === $post->user_id || Auth::user()->id === $comment->user_id))
+                        {!!Form::open(['action' => ['PostsController@deleteComment', $post->id, $comment->id], 'method' => 'POST'])!!}
+                            {{Form::hidden('_method', 'DELETE')}}
+                            {{Form::submit('x', ['class' => 'pull-right btn'])}}
+                        {!!Form::close()!!}
+                    @endif
+                    @if($comment->user)
+                        <img src="{{ $comment->user->profile_picture }}" class="small_prof_pic inline"/>
+                    @else
+                        <img src="http://i.imgur.com/1OVQqkQ.png" class="small_prof_pic inline"/>
+                    @endif
                     <div class="inline">
+                    @if($comment->user)
                         <a href="/user-profile/{{ $comment->user->id }}"><p1>{{$comment->user->name}}</p1></a><br />
-                        <small>{{ date('F d, Y', strtotime($post->created_at)) }}</small>
+                        @else
+                        <p1>Deleted User</p1><br />
+                    @endif
+                    <small>{{ date('F d, Y', strtotime($post->created_at)) }}</small>
                     </div>
                     <br />
                     <p>{{ $comment->comment }}</p>
@@ -86,7 +107,7 @@
     @endif
 </div>
 <div class="inline-s keywords_div">
-    <p>{{ count($keywords) }} Most Popular Keywords</p>
+    <p>Popular Keywords</p>
     <hr/>
     @foreach($keywords as $keyword)
         @if($loop->iteration < 11)

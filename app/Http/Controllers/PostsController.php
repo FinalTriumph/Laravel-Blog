@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use App\Post;
 use App\Category;
 use App\Keyword;
 use App\Like;
 use App\Comment;
+use App\Imgur_Token;
 /* To use MySQL queries
 use DB;
 */
@@ -56,7 +58,7 @@ class PostsController extends Controller
         
         $posts = Post::orderBy('created_at', 'desc')->paginate(3);
         
-        $keywords = Keyword::orderBy('count', 'desc')->take(30)->get();
+        $keywords = Keyword::orderBy('count', 'desc')->take(50)->get();
         
         $likes = array();
         if (auth()->user()) {
@@ -80,7 +82,7 @@ class PostsController extends Controller
         
         $total = Category::sum('count');
         
-        $keywords = Keyword::orderBy('count', 'desc')->take(30)->get();
+        $keywords = Keyword::orderBy('count', 'desc')->take(50)->get();
         
         $activeCategory = $category;
         
@@ -106,7 +108,7 @@ class PostsController extends Controller
         
         $total = Category::sum('count');
         
-        $keywords = Keyword::orderBy('count', 'desc')->take(30)->get();
+        $keywords = Keyword::orderBy('count', 'desc')->take(50)->get();
         
         $activeKeyword = $keyword;
         
@@ -146,7 +148,7 @@ class PostsController extends Controller
         //
         
         $this->validate($request, [
-            'title' => 'required',
+            'title' => 'required|max:190',
             'body' => 'required',
             'category' => 'required',
             'post_image' => 'image|max:4999|nullable'
@@ -183,19 +185,49 @@ class PostsController extends Controller
         if ($request->hasFile('post_image')) {
             
             // Upload to Imgur and get link
+            $client = new Client();
+            
+            $imgur_from_db = Imgur_Token::first();
+            
             $image = base64_encode(file_get_contents($request->file('post_image')));
-            $options = array('http'=>array(
-                'method'=>"POST",
-                'header'=>"Authorization: Bearer c3d5d3a28eb9596ef0d46e247ff85e8424108a75\n".
-                "Content-Type: application/x-www-form-urlencoded",
-                'content'=>$image
-            ));
-            $context = stream_context_create($options);
             $imgurURL = "https://api.imgur.com/3/image";
-            $response = file_get_contents($imgurURL, false, $context);
-            $response = json_decode($response);
-            $imglink = $response->data->link;
-            $imgHash = $response->data->id;
+            try {
+                $response = $client->request('POST', $imgurURL, [
+                        'headers' => [
+                            'authorization' => 'Bearer '.$imgur_from_db->token,
+                            'Content-Type' => 'application/x-www-form-urlencoded'
+                        ], 
+                        'body' => $image
+                ]);
+            } catch (ClientException $e) {
+                $new_token = $client->request('POST', "https://api.imgur.com/oauth2/token", [
+                    'json' => [
+                        'refresh_token' => $imgur_from_db->refresh_token,
+                        'client_id' => $imgur_from_db->client_id,
+                        'client_secret' => $imgur_from_db->client_secret,
+                        'grant_type' => $imgur_from_db->grant_type
+                    ]
+                ]);
+                $body = $new_token->getBody();
+                $dec_body = json_decode($body, true);
+                
+                $imgur_from_db-> token = $dec_body['access_token'];
+                $imgur_from_db-> refresh_token = $dec_body['refresh_token'];
+                
+                $imgur_from_db->save();
+                
+                $response = $client->request('POST', $imgurURL, [
+                        'headers' => [
+                            'authorization' => 'Bearer '.$imgur_from_db->token,
+                            'Content-Type' => 'application/x-www-form-urlencoded'
+                        ], 
+                        'body' => $image
+                ]);
+            }
+            
+            $response = json_decode($response->getBody(), true);
+            $imglink = $response['data']['link'];
+            $imgHash = $response['data']['id'];
             
             $post->cover_image = $imglink;
             $post->image_hash = $imgHash;
@@ -225,7 +257,7 @@ class PostsController extends Controller
         
         $total = Category::sum('count');
         
-        $keywords = Keyword::orderBy('count', 'desc')->take(30)->get();
+        $keywords = Keyword::orderBy('count', 'desc')->take(50)->get();
         
         $likes = array();
         if (auth()->user()) {
@@ -291,6 +323,20 @@ class PostsController extends Controller
         
         return redirect('/posts/'.$id)->with('success', 'Comment added');
     }
+    
+    public function deleteComment($postid, $commentid) {
+        //echo 'this is root to delete comment with id - '.$commentid.', from post with id - '.$postid;
+        $comment = Comment::find($commentid);
+        $post = Post::find($postid);
+        
+        if (auth()->user()->id === $comment->user_id || auth()->user()->id === $post->user_id) {
+            $comment->delete();
+            $post->decrement('comments', 1);
+            return redirect('/posts/'.$postid)->with('success', 'Comment deleted');
+        } else {
+            return redirect('/posts/'.$postid)->with('error', 'Unauthorized request');
+        }
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -322,7 +368,7 @@ class PostsController extends Controller
     {
         //
         $this->validate($request, [
-            'title' => 'required',
+            'title' => 'required|max:190',
             'body' => 'required',
             'category' => 'required',
             'post_image' => 'image|max:4999|nullable'
@@ -391,27 +437,85 @@ class PostsController extends Controller
                 $imgHash = $post->image_hash;
             
                 $client = new Client();
-                $res = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
-                    'headers' => [
-                        'authorization' => 'Bearer c3d5d3a28eb9596ef0d46e247ff85e8424108a75',
-                    ]
-                ]);
+                
+                $imgur_from_db = Imgur_Token::first();
+                
+                try {
+                    $response = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
+                        'headers' => [
+                            'authorization' => 'Bearer '.$imgur_from_db->token,
+                        ]
+                    ]);
+                } catch (ClientException $e) {
+                    
+                    $new_token = $client->request('POST', "https://api.imgur.com/oauth2/token", [
+                        'json' => [
+                            'refresh_token' => $imgur_from_db->refresh_token,
+                            'client_id' => $imgur_from_db->client_id,
+                            'client_secret' => $imgur_from_db->client_secret,
+                            'grant_type' => $imgur_from_db->grant_type
+                        ]
+                    ]);
+                    $body = $new_token->getBody();
+                    $dec_body = json_decode($body, true);
+                    
+                    $imgur_from_db-> token = $dec_body['access_token'];
+                    $imgur_from_db-> refresh_token = $dec_body['refresh_token'];
+                    
+                    $imgur_from_db->save();
+                    
+                    $response = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
+                        'headers' => [
+                            'authorization' => 'Bearer '.$imgur_from_db->token,
+                        ]
+                    ]);
+                }
             }
             ///////
             // Upload to Imgur and get link
+            $client = new Client();
+            
+            $imgur_from_db = Imgur_Token::first();
+            
             $image = base64_encode(file_get_contents($request->file('post_image')));
-            $options = array('http'=>array(
-                'method'=>"POST",
-                'header'=>"Authorization: Bearer c3d5d3a28eb9596ef0d46e247ff85e8424108a75\n".
-                "Content-Type: application/x-www-form-urlencoded",
-                'content'=>$image
-            ));
-            $context = stream_context_create($options);
             $imgurURL = "https://api.imgur.com/3/image";
-            $response = file_get_contents($imgurURL, false, $context);
-            $response = json_decode($response);
-            $imglink = $response->data->link;
-            $imgHash = $response->data->id;
+            try {
+                $response = $client->request('POST', $imgurURL, [
+                        'headers' => [
+                            'authorization' => 'Bearer '.$imgur_from_db->token,
+                            'Content-Type' => 'application/x-www-form-urlencoded'
+                        ], 
+                        'body' => $image
+                ]);
+            } catch (ClientException $e) {
+                $new_token = $client->request('POST', "https://api.imgur.com/oauth2/token", [
+                    'json' => [
+                        'refresh_token' => $imgur_from_db->refresh_token,
+                        'client_id' => $imgur_from_db->client_id,
+                        'client_secret' => $imgur_from_db->client_secret,
+                        'grant_type' => $imgur_from_db->grant_type
+                    ]
+                ]);
+                $body = $new_token->getBody();
+                $dec_body = json_decode($body, true);
+                
+                $imgur_from_db-> token = $dec_body['access_token'];
+                $imgur_from_db-> refresh_token = $dec_body['refresh_token'];
+                
+                $imgur_from_db->save();
+                
+                $response = $client->request('POST', $imgurURL, [
+                        'headers' => [
+                            'authorization' => 'Bearer '.$imgur_from_db->token,
+                            'Content-Type' => 'application/x-www-form-urlencoded'
+                        ], 
+                        'body' => $image
+                ]);
+            }
+            
+            $response = json_decode($response->getBody(), true);
+            $imglink = $response['data']['link'];
+            $imgHash = $response['data']['id'];
             
             $post->cover_image = $imglink;
             $post->image_hash = $imgHash;
@@ -445,11 +549,38 @@ class PostsController extends Controller
             $imgHash = $post->image_hash;
             
             $client = new Client();
-            $res = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
-                'headers' => [
-                    'authorization' => 'Bearer c3d5d3a28eb9596ef0d46e247ff85e8424108a75',
-                ]
-            ]);
+            $imgur_from_db = Imgur_Token::first();
+                
+            try {
+                $response = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
+                    'headers' => [
+                        'authorization' => 'Bearer '.$imgur_from_db->token,
+                    ]
+                ]);
+            } catch (ClientException $e) {
+                
+                $new_token = $client->request('POST', "https://api.imgur.com/oauth2/token", [
+                    'json' => [
+                        'refresh_token' => $imgur_from_db->refresh_token,
+                        'client_id' => $imgur_from_db->client_id,
+                        'client_secret' => $imgur_from_db->client_secret,
+                        'grant_type' => $imgur_from_db->grant_type
+                    ]
+                ]);
+                $body = $new_token->getBody();
+                $dec_body = json_decode($body, true);
+                
+                $imgur_from_db-> token = $dec_body['access_token'];
+                $imgur_from_db-> refresh_token = $dec_body['refresh_token'];
+                
+                $imgur_from_db->save();
+                
+                $response = $client->request('DELETE', "https://api.imgur.com/3/image/".$imgHash, [
+                    'headers' => [
+                        'authorization' => 'Bearer '.$imgur_from_db->token,
+                    ]
+                ]);
+            }
         }
         ///////
         

@@ -42,3 +42,7 @@ function n(t){return void 0===t||null===t}function r(t){return void 0!==t&&null!
 $(".btn").mouseup(function(){
     $(this).blur();
 });
+
+$('.alert_div').click(function() {
+    $('.alert_div').hide();
+});

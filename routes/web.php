@@ -29,4 +29,5 @@ Route::get('/posts/category/{category}', 'PostsController@showCategory');
 Route::get('/posts/keyword/{keyword}', 'PostsController@showKeyword');
 Route::post('/posts/{post}/like', 'PostsController@like');
 Route::post('/posts/{post}/addcomment', 'PostsController@addComment');
+Route::delete('/posts/{post}/deletecomment/{comment}', 'PostsController@deleteComment');
 Route::resource('posts', 'PostsController');

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Edit Profile | Laravel Blog
+@endsection
+
 @section('content')
 
 <div class="row">

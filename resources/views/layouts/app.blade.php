@@ -49,6 +49,11 @@
 
     <!-- Scripts -->
     <script src="{{ secure_asset('js/app.js') }}"></script>
+    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+    <script>
+        /*global CKEDITOR*/
+        CKEDITOR.replace( 'article-ckeditor' );
+    </script>
     @yield('scripts')
 </body>
 </html>

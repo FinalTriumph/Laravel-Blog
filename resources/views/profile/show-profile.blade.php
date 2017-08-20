@@ -28,12 +28,17 @@
                 </a>
                 <div class="post_div_on_image">
                     <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h3>
-                    <p>{{ str_limit($post->body, $limit = 150, $end = '...') }}</p>
+                    <!--<p>{{ str_limit($post->body, $limit = 150, $end = '...') }}</p>-->
+                    <p>{{ \Illuminate\Support\Str::words(strip_tags($post->body), 30, ' ...') }}</p>
                     <small>Category: <a href="/posts/category/{{ $post->category }}">{{ $post->category }}</a></small>
                     @if ($post->keywords != "")
                         <small class="pull-right">
                         @foreach(explode(', ', $post->keywords) as $keyword)
-                            <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>, 
+                            @if(explode(', ', $post->keywords)[count(explode(', ', $post->keywords)) - 1] == $keyword )
+                            <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>
+                            @else
+                            <a href="/posts/keyword/{{ $keyword }}"><p1>{{$keyword}}</p1></a>,
+                            @endif
                         @endforeach
                         </small>
                     @endif
