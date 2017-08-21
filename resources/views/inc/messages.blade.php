@@ -5,6 +5,7 @@
             {{ $error }}
         </div>
     @endforeach
+    <p style='text-align: center; color: #fff;'><small>(click anywhere on this page to close this message)</small></p>
     </div>
 @endif
 
@@ -13,6 +14,7 @@
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
+        <p style='text-align: center; color: #fff;'><small>(click anywhere on this page to close this message)</small></p>
     </div>
 @endif
 
@@ -21,6 +23,7 @@
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
+        <p style='text-align: center; color: #fff;'><small>(click anywhere on this page to close this message)</small></p>
     </div>
 @endif
 <script type="text/javascript">

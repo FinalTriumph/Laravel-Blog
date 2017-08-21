@@ -4,6 +4,9 @@
 @endsection
 
 @section('content')
+<div class="alert_div comment_delete_alert">
+    <div class="alert alert-danger"></div>
+</div>
 <div class="inline-s category_side_div">
     <a href="/posts" class="btn category_side_btn">All ({{ $total }})</a>
     @foreach($categories as $category)
@@ -14,16 +17,16 @@
     <a href="/posts/category/Other" class="btn category_side_btn">Other ({{ $categories[7]['count'] }})</a>
 </div>
 <div class="inline-l posts_div single_post_div ">
-    @if($post)
+    @if(count($post))
         @if(!Auth::guest() && Auth::user()->id === $post->user_id)
             <a href="/posts/{{$post->id}}/edit" class="btn btn-default sp_edit_delete">Edit</a>
-            {!!Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right sp_del_form'])!!}
+            {!!Form::open(['id' => 'delete_post_form_submit', 'action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right sp_del_form'])!!}
                 {{Form::hidden('_method', 'DELETE')}}
-                {{Form::submit('Delete', ['class' => 'btn btn-danger sp_edit_delete'])}}
+                {{Form::button('Delete', ['id' => 'delete_post_form_btn', 'class' => 'btn btn-danger sp_edit_delete'])}}
             {!!Form::close()!!}
         @endif
         @if($post->cover_image == 'none')
-            <img src="http://i.imgur.com/RkjJiWE.jpg" class="img-responsive single_post_img"/>
+            <img src="http://i.imgur.com/P4yUVYl.jpg" class="img-responsive single_post_img"/>
         @else
             <img src="{{ $post->cover_image }}" class="img-responsive single_post_img"/>
         @endif
@@ -73,9 +76,9 @@
             @foreach($comments as $comment)
                 <div class="comment_div">
                     @if(!Auth::guest() && (Auth::user()->id === $post->user_id || Auth::user()->id === $comment->user_id))
-                        {!!Form::open(['action' => ['PostsController@deleteComment', $post->id, $comment->id], 'method' => 'POST'])!!}
+                        {!!Form::open(['id' => $comment->id, 'class' => 'delete_comment_form', 'action' => ['PostsController@deleteComment', $post->id, $comment->id], 'method' => 'POST'])!!}
                             {{Form::hidden('_method', 'DELETE')}}
-                            {{Form::submit('x', ['class' => 'pull-right btn'])}}
+                            {{Form::button('x', ['class' => 'pull-right btn delete_comment_x', 'data-id' => $comment->id])}}
                         {!!Form::close()!!}
                     @endif
                     @if($comment->user)
@@ -142,15 +145,37 @@ $(".add_comment_btn").click(function() {
             }, 500, function() {
                 $(".add_comment_btn span").html('<img src="http://i.imgur.com/D6TqF0Z.png" class="ac_open_close">');
             });
-            //$(".add_comment_btn span").html('<img src="http://i.imgur.com/D6TqF0Z.png" class="ac_open_close">');
         } else {
             setTimeout(function() {
                 $(".add_comment_btn span").html('<img src="http://i.imgur.com/EpAaK4G.png" class="ac_open_close">');
             }, 500);
-            //$(".add_comment_btn span").html('<img src="http://i.imgur.com/EpAaK4G.png" class="ac_open_close">');
         }
         $(".add_comment_form").slideToggle(500);
     });
+
+$(".delete_comment_x").click(function() {
+    var form_id = $(this).attr('data-id');
+    $('.alert_div').show();
+    $('.alert_div .alert').html("Are you sure you want to delete this comment?<br /><button class='btn btn-danger del_com_conf_btn' onclick='submit(this)' data-id='"+form_id+"'>Yes</button><button class='btn del_com_conf_btn del_com_cancel'>Cancel</button>");
+});
+
+function submit(objBtn) {
+    var form_id = objBtn.getAttribute('data-id');
+    $('#' + form_id).submit();
+}
+
+$("#delete_post_form_btn").click(function() {
+    $('.alert_div').show();
+    $('.alert_div .alert').html("Are you sure you want to delete this post?<br /><button class='btn btn-danger del_com_conf_btn' onclick='deletePost()'>Yes</button><button class='btn del_com_conf_btn del_com_cancel'>Cancel</button>");
+});
+
+function deletePost() {
+    $('#delete_post_form_submit').submit();
+}
+
+$('.alert_div').click(function() {
+    $('.alert_div').hide();
+});
     
 </script>
 @endsection

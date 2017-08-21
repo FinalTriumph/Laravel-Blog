@@ -29,6 +29,7 @@
                     <a href="/home">Dashboard</a> |
                     <div class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <img src="{{Auth::user()->profile_picture}}" class="header_prof_img">
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu" role="menu">
@@ -50,8 +51,26 @@
     <!-- Scripts -->
     <script src="{{ secure_asset('js/app.js') }}"></script>
     <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
-    <script>
-        /*global CKEDITOR*/
+    <script type="text/javascript">
+        /*global CKEDITOR $*/
+        $(".dropdown").on("show.bs.dropdown", function(event){
+            $("#header").css("opacity", "1");
+            $("#header").hover(function() {
+                $("#header").css("opacity", "1");
+            }, function() {
+                $("#header").css("opacity", "1");
+            });
+        });
+        
+        $(".dropdown").on("hide.bs.dropdown", function(event){
+            $("#header").css("opacity", "0.9");
+            $("#header").hover(function() {
+                $("#header").css("opacity", "1");
+            }, function() {
+                $("#header").css("opacity", "0.9");
+            });
+        });
+        
         CKEDITOR.replace( 'article-ckeditor' );
     </script>
     @yield('scripts')

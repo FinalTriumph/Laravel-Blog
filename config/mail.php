@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@laravelblog.com'),
+        'name' => env('MAIL_FROM_NAME', 'Laravel Blog'),
     ],
 
     /*
@@ -87,6 +87,7 @@ return [
     'username' => env('MAIL_USERNAME'),
 
     'password' => env('MAIL_PASSWORD'),
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -100,7 +101,10 @@ return [
     */
 
     'sendmail' => '/usr/sbin/sendmail -bs',
-
+    
+    
+    'pretend' => false,
+    
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings

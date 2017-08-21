@@ -26,7 +26,7 @@ class ProfileController extends Controller
     public function showProfile($id) {
         $user = User::find($id);
         
-        $posts = Post::where('user_id', $id)->orderBy('created_at', 'desc')->paginate(3);
+        $posts = Post::where('user_id', $id)->orderBy('created_at', 'desc')->paginate(5);
         
         $likes = array();
         if (auth()->user()) {
@@ -171,6 +171,10 @@ class ProfileController extends Controller
         
         if ($request->input('about')) {
             $user->about = $request->input('about');
+        } else {
+            if ($user->about !== '') {
+                $user->about = '';
+            }
         }
         
         $user->save();

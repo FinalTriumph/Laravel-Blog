@@ -1,9 +1,4 @@
-html{
-    min-height: 100%;
-    position: relative;
-}
 body {
-    height: 100%;
     margin-bottom: 1em;
     color: #000;
     background-image: url('http://i.imgur.com/UWTv9Qr.png');
@@ -19,19 +14,31 @@ a:hover {
     -moz-box-shadow: 0px 0px 2px 0px rgba(150,150,150,0.3);
     box-shadow: 0px 0px 2px 0px rgba(150,150,150,0.3);
 }
+.row {
+    margin: 0;
+}
 .alert_div {
     background-color: rgba(0, 0, 0, 0.5);
-    position: absolute;
+    position: fixed;
     z-index: 999;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
+    padding-top: 10%;
+    padding-bottom: 10%;
 }
 .alert {
     width: 50%;
-    margin: 5em auto;
+    margin: 0.5em auto;
+}
+.comment_delete_alert {
+    display: none;
+    text-align: center;
+}
+.comment_delete_alert .alert {
+    padding: 2em;
 }
 #header {
     width: 100%;
@@ -43,6 +50,20 @@ a:hover {
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    opacity: 0.9;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+#header:hover {
+    opacity: 1;
+}
+.header_prof_img {
+    height: 2.5em;
+    margin: -1em 0.5em -0.7em 0.5em;
+    border: 1px solid #222;
+    border-radius: 2px;
 }
 #header a {
     font-size: 0.9em;
@@ -62,6 +83,7 @@ a:hover {
 }
 .dropdown {
     display: inline-block;
+    z-index: 999;
 }
 .dropdown-menu {
     background-color: #111;
@@ -83,6 +105,15 @@ a:hover {
 .dropdown-menu a:hover {
     background-color: #222;
 }
+.log_reg_div {
+    background-color: #fff;
+    padding: 1em 2em;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
+}
 .posts_div {
     background-color: #fff;
     width: 100%;
@@ -94,7 +125,7 @@ a:hover {
     box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
 }
 .posts_div_w_m {
-    margin-left: 20%;
+    margin-left: 1%;
 }
 .create_post_div {
     background-color: #fff;
@@ -109,6 +140,9 @@ a:hover {
     height: 3.5em;
     border-radius: 2px;
     margin-right: 0.5em;
+}
+.edit_img {
+    max-height: 7em;
 }
 .post_div_on_image {
     position: absolute;
@@ -135,7 +169,7 @@ a:hover {
 }
 .cr_n_p_hr {
     border-color: #777;
-    margin: 0.7em auto 1em auto;
+    margin: 0.7em auto 1.5em auto;
 }
 #cp_line, #da_line {
     margin: 0em auto 1.5em auto;
@@ -144,11 +178,18 @@ a:hover {
 .prof_hr {
     margin: 1em auto;
 }
+.log_reg_hr {
+    margin: 0.5em auto 2em auto;
+    //border-color: #777;
+}
+.log_reg_p {
+    margin-left: 1em;
+}
 .post_div_on_image h3 {
     margin: 0;
 }
 .single_post_div {
-    margin-left: 20%;
+    margin-left: 1%;
 }
 .single_post_div h3 {
     margin: 0;
@@ -176,6 +217,13 @@ a:hover {
     -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
     box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
+}
+.back_img {
+    width: 100%;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 .single_post_img {
     margin: 1em auto 1.5em auto;
@@ -243,6 +291,7 @@ a:hover {
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
 }
 .dashboard_post_div {
+    background-color: #fafafa;
     padding: 1em;
     margin-bottom: 1em;
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
@@ -254,15 +303,18 @@ a:hover {
 }
 .category_side_div {
     background-color: #fff;
-    position: absolute;
-    top: 2.6em;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
+    width: 18%;
     -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.5);
     box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.5);
+    opacity: 0.8;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.category_side_div:hover {
+    opacity: 1;
 }
 .category_side_btn {
     //background-color: #fff;
@@ -277,7 +329,6 @@ a:hover {
     padding-top: 0.9em;
     padding-bottom: 0.9em;
     padding-right: 2em;
-    //font-family: 'Catamaran', sans-serif;
     font-size: 0.9em;
     font-weight: 600;
     letter-spacing: .1rem;
@@ -299,10 +350,14 @@ a:hover {
     border-radius: 3px;
     padding: 1em;
     text-align: left;
-    //font-family: 'Catamaran', sans-serif;
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    opacity: 0.8;
+    transition-duration: 0.2s;
+}
+.keywords_div:hover {
+    opacity: 1;
 }
 .keywords_div hr {
     border-color: #ddd;
@@ -337,10 +392,17 @@ a:hover {
     height: 1.3em;
     margin: 0em 0.5em auto 0.3em;
 }
+.pagination {
+    margin: 0.5em auto;
+}
 .pagination li a,
 .pagination .disabled span,
 .pagination .active span {
     border-color: #fff;
+    //background-color: #eee;
+    padding: 0 0.2em;
+    margin: auto 0.2em;
+    font-family: sans-serif;
 }
 .pagination li a:hover {
     border-color: #fff;
@@ -350,6 +412,12 @@ a:hover {
 .pagination .disabled span:hover,
 .pagination .active span:hover {
     border-color: #fff;
+}
+.pagination .active span, .pagination .active span:hover {
+    background-color: #fff;
+    color: #000;
+    //text-decoration: underline;
+    border-bottom: 1px solid #ddd;
 }
 /* buttons */
 .add_comment_btn, 
@@ -385,6 +453,12 @@ a:hover {
     padding: 0.2em 5em;
     margin: 1em auto 1.5em auto;
 }
+.log_reg_btn {
+    padding: 0.2em 5em;
+}
+.reg_btn {
+    margin-top: 0.5em;
+}
 #create_new_post_btn {
     padding: 0.2em;
     margin-bottom: 1em;
@@ -397,5 +471,28 @@ a:hover {
 }
 .del_acc_submit {
     padding: 0.3em 3em;
+    margin-top: 1em;
     margin-bottom: 2em;
+}
+.delete_comment_x {
+    background-color: #fff;
+    color: #999;
+    font-size: 1.3em;
+    font-weight: 600;
+    padding: 0em 0.5em;
+}
+.delete_comment_x:hover {
+    color: #aa4a24;
+}
+.del_com_conf_btn {
+    padding: 0.2em 5em;
+    margin: 1.5em 1em 1em auto;
+}
+.del_com_cancel {
+    background-color: #777;
+    color: #fff;
+}
+.del_com_cancel:hover {
+    background-color: #666;
+    color: #fff;
 }

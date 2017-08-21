@@ -37,7 +37,7 @@ class PostsController extends Controller
         //
         //$posts = DB::select('SELECT * FROM posts');
         
-        $crateCategories = array('Business', 'Education', 'Entertainment', 'Fashion', 'Finance', 'Health', 'Lifestyle', 'Relationships', 'Science', 'Sports', 'Technology', 'Travel', 'Web Development', 'Other');
+        $crateCategories = array('Business', 'Education', 'Entertainment', 'Fashion', 'Finance', 'Health', 'Lifestyle', 'Nature', 'Relationships', 'Science', 'Sports', 'Technology', 'Travel', 'Web Development', 'Other');
         $categories;
         
         if (count(Category::orderBy('title')->get())) {
@@ -56,7 +56,7 @@ class PostsController extends Controller
         }
         $total = Category::sum('count');
         
-        $posts = Post::orderBy('created_at', 'desc')->paginate(3);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(5);
         
         $keywords = Keyword::orderBy('count', 'desc')->take(50)->get();
         
@@ -76,7 +76,7 @@ class PostsController extends Controller
     //
     public function showCategory($category) {
         
-        $posts = Post::where('category', $category)->orderBy('created_at', 'desc')->paginate(3);
+        $posts = Post::where('category', $category)->orderBy('created_at', 'desc')->paginate(5);
         
         $categories = Category::orderBy('title')->get();
         
@@ -102,7 +102,7 @@ class PostsController extends Controller
     
     public function showKeyword($keyword) {
        
-        $posts = Post::where('keywords', 'LIKE', '%'.$keyword.'%')->orderBy('created_at', 'desc')->paginate(3);
+        $posts = Post::where('keywords', 'LIKE', '%'.$keyword.'%')->orderBy('created_at', 'desc')->paginate(5);
         
         $categories = Category::orderBy('title')->get();
         
@@ -606,6 +606,6 @@ class PostsController extends Controller
         $post->delete();
         
         
-        return redirect('/home')->with('success', 'Post Removed');
+        return redirect('/home')->with('success', 'Post deleted');
     }
 }

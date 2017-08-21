@@ -5,6 +5,9 @@
 @endsection
 
 @section('content')
+<div class="alert_div comment_delete_alert">
+    <div class="alert alert-danger"></div>
+</div>
 <div class="inline-m profile_info_div">
     <img src="{{ $user->profile_picture }}" class="img-responsive" />
     <br />
@@ -12,6 +15,7 @@
     <hr class="prof_hr"/>
     @if($user->about)
         <p>{{ $user->about }}</p>
+        <hr class="prof_hr"/>
     @endif
     <small>Joined {{ date('F d, Y', strtotime($user->created_at)) }}</small>
     @if(!Auth::guest() && Auth::user()->id === $user->id)
@@ -25,7 +29,7 @@
             <div class="dashboard_post_div">
                 <a href="/posts/{{ $post->id }}">
                     @if($post->cover_image == 'none')
-                        <img src="http://i.imgur.com/RkjJiWE.jpg" class="img-responsive inline-db-i"/>
+                        <img src="http://i.imgur.com/P4yUVYl.jpg" class="img-responsive inline-db-i"/>
                     @else
                         <img src="{{ $post->cover_image }}" class="img-responsive inline-db-i"/>
                     @endif
@@ -57,9 +61,9 @@
                         <a href="/posts/{{ $post->id }}#comments" class="comment_link_i"><p1>{{ $post->comments }} <img src="http://i.imgur.com/WpaQR1B.png" class="comment_icon"/></p1></a>
                 </div>
                 <a href="/posts/{{$post->id}}/edit" class="btn btn-default sp_edit_delete">Edit</a>
-                {!!Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right sp_del_form'])!!}
+                {!!Form::open(['id' => $post->id, 'action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right sp_del_form'])!!}
                     {{Form::hidden('_method', 'DELETE')}}
-                    {{Form::submit('Delete', ['class' => 'btn btn-danger sp_edit_delete'])}}
+                    {{Form::button('Delete', ['class' => 'btn btn-danger sp_edit_delete delete_post', 'data-id' => $post->id])}}
                 {!!Form::close()!!}
             </div>
         @endforeach
@@ -75,4 +79,17 @@
 
 @section('scripts')
 <script src="{{ secure_asset('js/like.js') }}"></script>
+<script type="text/javascript" >
+/* global $ */
+$(".delete_post").click(function() {
+    var form_id = $(this).attr('data-id');
+    $('.alert_div').show();
+    $('.alert_div .alert').html("Are you sure you want to delete this post?<br /><button class='btn btn-danger del_com_conf_btn' onclick='submit(this)' data-id='"+form_id+"'>Yes</button><button class='btn del_com_conf_btn del_com_cancel'>Cancel</button>");
+});
+
+function submit(objBtn) {
+    var form_id = objBtn.getAttribute('data-id');
+    $('#' + form_id).submit();
+}
+</script>
 @endsection

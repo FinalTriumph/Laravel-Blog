@@ -63,10 +63,15 @@
                 display: inline-block;
                 vertical-align: top;
             }
+            .bg {
+                width: 20%;
+            }
             .desc {
+                width: 70%;
                 background-color: rgba(0, 0, 0, 0.5);
                 padding: 2em 5em;
                 margin-right: 0em;
+                margin-bottom: 5em;
                 padding-bottom: 1em;
                 border: 1px solid rgba(0, 0, 0, 0.2);
                 border-radius: 5px;
@@ -98,7 +103,7 @@
                 @endauth
             </div>
             @endif
-            <div class="inline">
+            <div class="inline lb">
                 <h1>Laravel</br>Blog</h1>
             </div>
             <div class="inline desc">
@@ -120,9 +125,12 @@
                         <p class="left_m">- Create new posts.</p>
                         <p class="left_m">- Edit created posts.</p>
                         <p class="left_m">- Delete created posts.</p>
-                        <p class="left_m">- Like posts.</p>
+                        <p class="left_m">- Like/unlike posts.</p>
                         <p class="left_m">- Comment posts.</p>
+                        <p class="left_m">- Delete added comments.</p>
+                        <p class="left_m">- Delete all comments from created posts.</p>
                         <p class="left_m">- Edit profile.</p>
+                        <p class="left_m">- Delete account.</p>
                     </div>
                 </div>
                 <hr />

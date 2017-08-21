@@ -31,7 +31,7 @@ class HomeController extends Controller
         $user = User::find($user_id);
         
         //$posts = $user->posts->sortByDesc('created_at');
-        $posts = Post::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(3);
+        $posts = Post::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(5);
         
         $likes = array();
         if (auth()->user()) {

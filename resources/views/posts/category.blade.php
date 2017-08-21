@@ -30,9 +30,9 @@
             <div class="post_div_background_image">
                 <a href="/posts/{{ $post->id }}">
                     @if($post->cover_image == 'none')
-                        <img src="http://i.imgur.com/RkjJiWE.jpg" class="img-responsive"/>
+                        <img src="http://i.imgur.com/P4yUVYl.jpg" class="back_img"/>
                     @else
-                        <img src="{{ $post->cover_image }}" class="img-responsive"/>
+                        <img src="{{ $post->cover_image }}" class="back_img"/>
                     @endif
                 </a>
                 <div class="post_div_on_image">
@@ -96,4 +96,5 @@
 
 @section('scripts')
 <script src="{{ secure_asset('js/like.js') }}"></script>
+<script src="{{ secure_asset('js/change_img_size.js') }}"></script>
 @endsection
