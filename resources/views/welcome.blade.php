@@ -110,30 +110,33 @@
                 <p>This application was made as a part of Laravel/PHP/MySQL programming practice.</p>
                 <hr />
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-5">
                         <p class="b_t">All users can:</p>
                         <p class="left_m">- Register new account/login.</p>
                         <p class="left_m">- Browse through all posts.</p>
                         <p class="left_m">- View posts by category.</p>
                         <p class="left_m">- View posts by keyword.</p>
+                        <p class="left_m">- Search posts</br>(returns results where search term is included in post keywords, title or body).</p>
                         <p class="left_m">- View single post.</p>
                         <p class="left_m">- View post comments.</p>
                         <p class="left_m">- View user profiles.</p>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-7">
                         <p class="b_t">Authenticated users can:</p>
-                        <p class="left_m">- Create new posts.</p>
+                        <p class="left_m">- Create new posts with title, body, category, keywords, image.</p>
                         <p class="left_m">- Edit created posts.</p>
                         <p class="left_m">- Delete created posts.</p>
                         <p class="left_m">- Like/unlike posts.</p>
                         <p class="left_m">- Comment posts.</p>
                         <p class="left_m">- Delete added comments.</p>
                         <p class="left_m">- Delete all comments from created posts.</p>
-                        <p class="left_m">- Edit profile.</p>
+                        <p class="left_m">- Edit profile (change name, about, email, password, profile picture).</p>
+                        <p class="left_m">- Reset password using registered email.</p>
                         <p class="left_m">- Delete account.</p>
                     </div>
                 </div>
                 <hr />
+                <p>There still may be some errors and if any spotted feel free to contact me and let me know.</p>
                 <p>Made by FinalTriumph.</p>
             </div>
         </div>

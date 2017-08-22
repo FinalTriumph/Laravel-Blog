@@ -33,10 +33,13 @@ class ProfileController extends Controller
             $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
         }
         
+        $post_count = Post::where('user_id', $id)->count();
+        
         return view('profile.show-profile')
             ->with('posts', $posts)
             ->with('user', $user)
-            ->with('likes', $likes);
+            ->with('likes', $likes)
+            ->with('post_count', $post_count);
     }
     
     public function edit($id) {

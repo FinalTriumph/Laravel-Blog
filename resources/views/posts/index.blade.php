@@ -12,9 +12,11 @@
         <a href="/posts/category/{{ $category->title }}" class="btn category_side_btn">{{ $category->title }} ({{ $category->count }})</a>
         @endif
     @endforeach
-    <a href="/posts/category/Other" class="btn category_side_btn">Other ({{ $categories[7]['count'] }})</a>
+    <a href="/posts/category/Other" class="btn category_side_btn">Other ({{ $categories[8]['count'] }})</a>
 </div>
 <div class="inline-l posts_div posts_div_w_m">
+    <p>All</p>
+    <hr class="cat_hr"/>
     @if(count($posts))
         @foreach($posts as $post)
             <div class="post_div_background_image">

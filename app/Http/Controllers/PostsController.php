@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use App\Post;
+use App\User;
 use App\Category;
 use App\Keyword;
 use App\Like;
@@ -24,7 +25,7 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show', 'showCategory', 'showKeyword']]);
+        $this->middleware('auth', ['except' => ['index', 'show', 'showCategory', 'showKeyword', 'search']]);
     }
     
     /**
@@ -71,6 +72,41 @@ class PostsController extends Controller
             ->with('total', $total)
             ->with('keywords', $keywords)
             ->with('likes', $likes);
+    }
+    
+    public function search($term) {
+        
+        $posts = Post::where('keywords', 'LIKE', '%'.$term.'%')
+                        ->orWhere('title', 'LIKE', '%'.$term.'%')
+                        ->orWhere('body', 'LIKE', '%'.$term.'%')
+                        ->orderBy('created_at', 'desc')->paginate(5);
+        
+        $categories = Category::orderBy('title')->get();
+        
+        $total = Category::sum('count');
+        
+        $totalPostCount = Post::where('keywords', 'LIKE', '%'.$term.'%')
+                        ->orWhere('title', 'LIKE', '%'.$term.'%')
+                        ->orWhere('body', 'LIKE', '%'.$term.'%')
+                        ->count();
+        
+        $keywords = Keyword::orderBy('count', 'desc')->take(50)->get();
+        
+        $searchTerm = $term;
+        
+        $likes = array();
+        if (auth()->user()) {
+            $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
+        }
+        
+        return view('posts.search-results')
+            ->with('posts', $posts)
+            ->with('categories', $categories)
+            ->with('total', $total)
+            ->with('keywords', $keywords)
+            ->with('searchTerm', $searchTerm)
+            ->with('likes', $likes)
+            ->with('totalPostCount', $totalPostCount);
     }
     
     //

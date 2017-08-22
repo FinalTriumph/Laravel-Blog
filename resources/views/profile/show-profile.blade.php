@@ -18,6 +18,8 @@
 </div>
 <div class="inline-l posts_div">
     @if(count($posts))
+    <p>Total post count: {{ $post_count }}</p>
+    <hr class="cat_hr"/>
         @foreach($posts as $post)
             <div class="post_div_background_image">
                 <a href="/posts/{{ $post->id }}">
@@ -64,7 +66,7 @@
             {{ $posts->links() }}
         </div>
     @else
-        <p>No posts found</p>
+        <div style="margin-top: 1em"><p>No posts to show</p></div>
     @endif
 
 </div>

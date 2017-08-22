@@ -18,6 +18,9 @@
     <div id="app">
         <div id="header">
             <a href="/"><p class="pull-left logo_t">Laravel Blog</p></a>
+            <div id="search_div">
+                <input type="text" name="search_term" id="search_term" class="form-control" placeholder="Search ..."/><button id="submit_search" class="btn btn-default"><img src="http://i.imgur.com/VVVVBvq.png" id="search_icon" /></button>
+            </div>
             <div class="pull-right">
                 <a href="/posts">Posts</a> | 
                 <!-- Authentication Links -->
@@ -25,7 +28,6 @@
                     <a href="{{ route('login') }}">Login</a> | 
                     <a href="{{ route('register') }}">Register</a>
                 @else
-                    <a href="/user-profile/{{ Auth::user()->id }}">My Posts</a> | 
                     <a href="/home">Dashboard</a> |
                     <div class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -45,7 +47,21 @@
             </div>
         </div>
         @include('inc.messages')
-        @yield('content')
+        <div id="content_div">
+            @yield('content')
+        </div>
+        <div id="footer" class="row">
+            <div class="col-xs-2 footer_lb">
+                <h3>Laravel<br/>Blog</h3>
+            </div>
+            <div class="col-xs-8 footer_cont">
+                <p>Laravel / PHP / MySQL practice project</p>
+                <p>2017 <span class="sep_line">|</span> Made by FinalTriumph</p>
+            </div>
+            <div class="col-xs-2">
+                <img src="http://i.imgur.com/8ntI3rY.png" id="arrow-img"/>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->
@@ -70,6 +86,46 @@
                 $("#header").css("opacity", "0.9");
             });
         });
+        
+        $("#arrow-img").click(function() {
+            $('html, body').animate({
+                scrollTop: $('body').offset().top
+            }, 500);
+        });
+        
+        $("#submit_search").click(function() {
+            var term = $("input[name='search_term']").val();
+            if (!term.replace(/\s/g, '').length) {
+                $("input[name='search_term']").val("Type your search term here");
+            } else {
+                window.location = window.location.origin + "/posts/search/" + term;
+            }
+        });
+        
+        $("input[name='search_term']").keypress(function(e) {
+            if (e.which === 13) {
+                $("#submit_search").click();
+            }
+        });
+        
+        $("input[name='search_term']").focus(function() {
+            $("#header").css("opacity", "1");
+            $("#header").hover(function() {
+                $("#header").css("opacity", "1");
+            }, function() {
+                $("#header").css("opacity", "1");
+            });
+        });
+        $("input[name='search_term']").blur(function() {
+            $("#header").css("opacity", "0.9");
+            $("#header").hover(function() {
+                $("#header").css("opacity", "1");
+            }, function() {
+                $("#header").css("opacity", "0.9");
+            });
+        });
+        
+        
         
         CKEDITOR.replace( 'article-ckeditor' );
     </script>

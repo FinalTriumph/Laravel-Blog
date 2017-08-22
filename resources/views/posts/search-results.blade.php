@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ $activeCategory }} | Laravel Blog
+    Search '{{ $searchTerm }}' | Laravel Blog
 @endsection
 
 @section('content')
@@ -9,21 +9,17 @@
     <a href="/posts" class="btn category_side_btn">All ({{ $total }})</a>
     @foreach($categories as $category)
         @if($category->title != "Other")
-            @if($category->title == $activeCategory)
-            <a href="/posts/category/{{ $category->title }}" class="btn category_side_btn active_side_category">{{ $category->title }} ({{ $category->count }})</a>
-            @else
-            <a href="/posts/category/{{ $category->title }}" class="btn category_side_btn">{{ $category->title }} ({{ $category->count }})</a>
-            @endif
+        <a href="/posts/category/{{ $category->title }}" class="btn category_side_btn">{{ $category->title }} ({{ $category->count }})</a>
         @endif
     @endforeach
-    @if($categories[8]['title'] == $activeCategory)
-        <a href="/posts/category/Other" class="btn category_side_btn active_side_category">Other ({{ $categories[8]['count'] }})</a>
-    @else
-        <a href="/posts/category/Other" class="btn category_side_btn">Other ({{ $categories[8]['count'] }})</a>
-    @endif
+    <a href="/posts/category/Other" class="btn category_side_btn">Other ({{ $categories[8]['count'] }})</a>
 </div>
 <div class="inline-l posts_div posts_div_w_m">
-    <p>{{ $activeCategory }}</p>
+    <p>Search results for '<span id="st">{{ $searchTerm }}</span>' 
+    @if($totalPostCount !== 0)
+        ({{ $totalPostCount }})
+    @endif
+    </p>
     <hr class="cat_hr"/>
     @if(count($posts))
         @foreach($posts as $post)
@@ -76,7 +72,7 @@
             {{ $posts->links() }}
         </div>
     @else
-        <p>No posts found</p>
+        <p>Nothing found</p>
     @endif
 </div>
 <div class="inline-s keywords_div">
@@ -97,4 +93,7 @@
 @section('scripts')
 <script src="{{ secure_asset('js/like.js') }}"></script>
 <script src="{{ secure_asset('js/change_img_size.js') }}"></script>
+<script type="text/javascript">
+    $("input[name=search_term]").val($("#st").html());
+</script>
 @endsection

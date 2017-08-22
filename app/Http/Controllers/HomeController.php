@@ -30,7 +30,6 @@ class HomeController extends Controller
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
         
-        //$posts = $user->posts->sortByDesc('created_at');
         $posts = Post::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(5);
         
         $likes = array();
@@ -38,9 +37,12 @@ class HomeController extends Controller
             $likes = Like::where('user_id', auth()->user()->id)->pluck('post_id')->toArray();
         }
         
+        $post_count = Post::where('user_id', $user_id)->count();
+        
         return view('home')
             ->with('posts', $posts)
             ->with('user', $user)
-            ->with('likes', $likes);
+            ->with('likes', $likes)
+            ->with('post_count', $post_count);
     }
 }

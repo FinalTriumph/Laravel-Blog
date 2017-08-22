@@ -25,6 +25,7 @@
 <div class="inline-l posts_div">
     <a href="posts/create" class="btn btn-default" id="create_new_post_btn">Create New Post</a>
     @if(count($posts))
+        <div class="pull-right" style="margin: 0.3em 2em"><p>Total post count: {{ $post_count }}</p></div>
         @foreach($posts as $post)
             <div class="dashboard_post_div">
                 <a href="/posts/{{ $post->id }}">
@@ -71,7 +72,7 @@
             {{ $posts->links() }}
         </div>
     @else
-        <p>No posts found</p>
+        <div style="margin-top: 1em"><p>No posts to show</p></div>
     @endif
 </div>
 
