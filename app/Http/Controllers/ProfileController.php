@@ -123,6 +123,7 @@ class ProfileController extends Controller
                 
             }
             ///////
+            
             // Upload to Imgur and get link
             $client = new Client();
             
@@ -336,7 +337,6 @@ class ProfileController extends Controller
                 
                 Post::find($post->id)->delete();
             }
-            
             
             //remove profile
             $user->delete();

@@ -76,7 +76,7 @@
             {{ $posts->links() }}
         </div>
     @else
-        <p>No posts found</p>
+        <p>Nothing to show</p>
     @endif
 </div>
 <div class="inline-s keywords_div">

@@ -68,7 +68,7 @@
             }
             .desc {
                 width: 70%;
-                background-color: rgba(0, 0, 0, 0.5);
+                background-color: rgba(20, 20, 20, 0.7);
                 padding: 2em 5em;
                 margin-right: 0em;
                 margin-bottom: 5em;
@@ -144,7 +144,7 @@
                 </div>
                 <hr />
                 <p>There still may be some errors and if any spotted feel free to <a href="http://finaltriumph.tk/" target="_blank">contact me</a> and let me know.</p>
-                <p>Made by <a href="http://finaltriumph.tk/" target="_blank">FinalTriumph</a>.</p>
+                <p>Made by <a href="http://finaltriumph.tk/" target="_blank">FinalTriumph</a>, 2017</p>
             </div>
         </div>
     </body>

@@ -79,7 +79,6 @@ a:hover {
     font-size: 0.9em;
     font-weight: 600;
     letter-spacing: .1rem;
-    //color: #3097d1;
     color: #eee;
     padding: 0 1em;
     text-transform: uppercase;
@@ -95,7 +94,6 @@ a:hover {
     position: absolute;
     top: 1em;
     left: 21%;
-    //background-color: #fff;
 }
 #search_term {
     background-color: #444;
@@ -106,9 +104,6 @@ a:hover {
     margin: 0;
     border-color: #444;
     border-radius: 0;
-}
-#search_term:focus {
-    //background-color: #ddd;
 }
 #submit_search {
     height: 2em;
@@ -196,9 +191,6 @@ a:hover {
     bottom: 0;
     width: 100%;
     padding: 1em 2em 1em 2em;
-    //background-color: #fff;
-    //background-color: rgba(255, 255, 255, 0.8);
-    //color: #000;
     background-color: #000;
     background-color: rgba(0, 0, 0, 0.8);
     color: #fff;
@@ -227,7 +219,6 @@ a:hover {
 }
 .log_reg_hr {
     margin: 0.5em auto 2em auto;
-    //border-color: #777;
 }
 .log_reg_p {
     margin-left: 1em;
@@ -287,7 +278,6 @@ a:hover {
 .comment_div {
     padding: 0em 2em;
     margin: 0;
-    //background-color: #fafafa;
 }
 .comment_div p {
     margin: 0;
@@ -369,22 +359,18 @@ a:hover {
     opacity: 1;
 }
 .category_side_btn {
-    //background-color: #fff;
-    //background-color: rgba(255, 255, 255, 0.7);
     width: 100%;
     margin: auto;
     text-align: right;
     color: #000;
     border-radius: 0;
     border-bottom: 1px solid #ddd;
-    //border-top: 0;
     padding-top: 0.9em;
     padding-bottom: 0.9em;
     padding-right: 2em;
     font-size: 0.9em;
     font-weight: 600;
     letter-spacing: .1rem;
-    //color: #3097d1;
     text-transform: uppercase;
 }
 .category_side_btn:hover {
@@ -450,7 +436,6 @@ a:hover {
 .pagination .disabled span,
 .pagination .active span {
     border-color: #fff;
-    //background-color: #eee;
     padding: 0 0.2em;
     margin: auto 0.2em;
     font-family: sans-serif;
@@ -467,7 +452,6 @@ a:hover {
 .pagination .active span, .pagination .active span:hover {
     background-color: #fff;
     color: #000;
-    //text-decoration: underline;
     border-bottom: 1px solid #ddd;
 }
 /* buttons */
@@ -557,9 +541,6 @@ a:hover {
     background-color: #111;
     color: #eee;
     border-top: 1px solid #222;
-    //-webkit-box-shadow: 0px -1px 2px 0px rgba(0,0,0,0.5);
-    //-moz-box-shadow: 0px -1px 2px 0px rgba(0,0,0,0.5);
-    //box-shadow: 0px -1px 2px 0px rgba(0,0,0,0.5);
     opacity: 0.9;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;

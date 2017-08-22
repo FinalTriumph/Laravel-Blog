@@ -36,8 +36,6 @@ class PostsController extends Controller
     public function index()
     {
         //
-        //$posts = DB::select('SELECT * FROM posts');
-        
         $crateCategories = array('Business', 'Education', 'Entertainment', 'Fashion', 'Finance', 'Health', 'Lifestyle', 'Nature', 'Relationships', 'Science', 'Sports', 'Technology', 'Travel', 'Web Development', 'Other');
         $categories;
         
@@ -361,7 +359,7 @@ class PostsController extends Controller
     }
     
     public function deleteComment($postid, $commentid) {
-        //echo 'this is root to delete comment with id - '.$commentid.', from post with id - '.$postid;
+        
         $comment = Comment::find($commentid);
         $post = Post::find($postid);
         
@@ -508,6 +506,7 @@ class PostsController extends Controller
                 }
             }
             ///////
+            
             // Upload to Imgur and get link
             $client = new Client();
             

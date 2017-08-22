@@ -125,8 +125,6 @@
             });
         });
         
-        
-        
         CKEDITOR.replace( 'article-ckeditor' );
     </script>
     @yield('scripts')
