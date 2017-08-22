@@ -15,7 +15,7 @@ class AddAboutToUsers extends Migration
     {
         //
         Schema::table('users', function($table) {
-            $table->mediumText('about');
+            $table->text('about')->default('');
         });
     }
 
