@@ -120,8 +120,8 @@ return [
     |
     */
 
-    //'log' => env('APP_LOG', 'single'),
-    'log' => 'errorlog',
+    'log' => env('APP_LOG', 'single'),
+    //'log' => 'errorlog',
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
@@ -165,6 +165,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
+        Fideloper\Proxy\TrustedProxyServiceProvider::class,
 
         /*
          * Package Service Providers...
