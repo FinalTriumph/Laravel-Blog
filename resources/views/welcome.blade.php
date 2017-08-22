@@ -79,6 +79,13 @@
                 -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
                 box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
             }
+            .desc a{
+                color: #fff;
+                text-decoration: underline;
+            }
+            .desc a:hover {
+                color: #ddd;
+            }
             .row {
                 text-align: left;
             }
@@ -136,8 +143,8 @@
                     </div>
                 </div>
                 <hr />
-                <p>There still may be some errors and if any spotted feel free to contact me and let me know.</p>
-                <p>Made by FinalTriumph.</p>
+                <p>There still may be some errors and if any spotted feel free to <a href="http://finaltriumph.tk/" target="_blank">contact me</a> and let me know.</p>
+                <p>Made by <a href="http://finaltriumph.tk/" target="_blank">FinalTriumph</a>.</p>
             </div>
         </div>
     </body>

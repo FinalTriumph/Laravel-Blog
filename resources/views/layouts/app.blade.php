@@ -56,7 +56,7 @@
             </div>
             <div class="col-xs-8 footer_cont">
                 <p>Laravel / PHP / MySQL practice project</p>
-                <p>2017 <span class="sep_line">|</span> Made by FinalTriumph</p>
+                <p>2017 <span class="sep_line">|</span> Made by <a href="http://finaltriumph.tk/" target="_blank">FinalTriumph</a></p>
             </div>
             <div class="col-xs-2">
                 <img src="http://i.imgur.com/8ntI3rY.png" id="arrow-img"/>
