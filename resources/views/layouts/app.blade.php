@@ -19,9 +19,7 @@
     <div id="app">
         <div id="header">
             <a href="/"><p class="pull-left logo_t">Laravel Blog</p></a>
-            <div id="search_div">
-                <input type="text" name="search_term" id="search_term" class="form-control" placeholder="Search ..."/><button id="submit_search" class="btn btn-default"><img src="http://i.imgur.com/VVVVBvq.png" id="search_icon" /></button>
-            </div>
+            @yield('search_box')
             <div class="pull-right">
                 <a href="/posts">Posts</a> | 
                 <!-- Authentication Links -->

@@ -4,6 +4,12 @@
     {{ $activeCategory }} | Laravel Blog
 @endsection
 
+@section('search_box')
+    <div id="search_div">
+        <input type="text" name="search_term" id="search_term" class="form-control" placeholder="Search ..."/><button id="submit_search" class="btn btn-default"><img src="http://i.imgur.com/VVVVBvq.png" id="search_icon" /></button>
+    </div>
+@endsection
+
 @section('content')
 <div class="inline-s category_side_div">
     <a href="/posts" class="btn category_side_btn">All ({{ $total }})</a>
