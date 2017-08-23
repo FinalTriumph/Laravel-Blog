@@ -185,7 +185,7 @@ class PostsController extends Controller
             'title' => 'required|max:190',
             'body' => 'required',
             'category' => 'required',
-            'post_image' => 'image|max:4999|nullable'
+            'post_image' => 'image|max:1999|nullable'
         ]);
         
         $post = new Post;
@@ -405,7 +405,7 @@ class PostsController extends Controller
             'title' => 'required|max:190',
             'body' => 'required',
             'category' => 'required',
-            'post_image' => 'image|max:4999|nullable'
+            'post_image' => 'image|max:1999|nullable'
         ]);
         
         $post = Post::find($id);

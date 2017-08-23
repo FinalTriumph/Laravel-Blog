@@ -43,7 +43,7 @@
                     {{ Form::label('post_image', 'Post image:') }}
                     {{ Form::file('post_image') }}
                     <hr style="margin: 1em auto 0 auto"/>
-                    <small>Maximum file size: 5MB</small>
+                    <small>Maximum file size: 2MB</small>
                     <hr style="margin: 0"/>
                     <small>If not selected, default image will be added.</small>
                 </div>

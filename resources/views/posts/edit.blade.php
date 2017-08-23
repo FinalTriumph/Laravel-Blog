@@ -50,7 +50,7 @@
                     {{ Form::label('post_image', 'Change post image:') }}
                     {{ Form::file('post_image') }}
                     <hr style="margin: 1em auto 0 auto"/>
-                    <small>Maximum file size: 5MB</small>
+                    <small>Maximum file size: 2MB</small>
                 </div>
             </div>
             <div class="form-group">

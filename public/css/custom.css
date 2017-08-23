@@ -333,12 +333,24 @@ a:hover {
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
 }
 .dashboard_post_div {
-    background-color: #fafafa;
+    background-color: #f9f9f9;
     padding: 1em;
     margin-bottom: 1em;
+    border-left: 7px solid #ddd;
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.dashboard_post_div:hover {
+    background-color: #fff;
+    border-color: #3097D1;
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
 }
 .comment_link_i, .comment_link_i:hover {
     color: #000;

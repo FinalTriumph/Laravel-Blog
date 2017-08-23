@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Laravel Blog</title>
+        <link rel="icon" href="http://i.imgur.com/wCMefcg.png">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:200,600" rel="stylesheet" type="text/css">
@@ -16,6 +17,7 @@
                 color: #fff;
                 font-family: 'Raleway', sans-serif;
                 height: 100vh;
+                min-width: 1200px;
                 margin: 0;
                 text-align: center;
                 background-image: url('http://i.imgur.com/6u1aQRO.jpg');
@@ -41,7 +43,7 @@
                 width: 100%;
                 text-align: right;
                 padding-top: 1em;
-                margin-bottom: 5em;
+                margin-bottom: 3em;
             }
             .links {
                 font-size: 0.9em;
@@ -123,14 +125,14 @@
                         <p class="left_m">- Browse through all posts.</p>
                         <p class="left_m">- View posts by category.</p>
                         <p class="left_m">- View posts by keyword.</p>
-                        <p class="left_m">- Search posts</br>(returns results where search term is included in post keywords, title or body).</p>
+                        <p class="left_m">- Search posts (returns results where search term is included in post keywords, title or body).</p>
                         <p class="left_m">- View single post.</p>
                         <p class="left_m">- View post comments.</p>
                         <p class="left_m">- View user profiles.</p>
                     </div>
                     <div class="col-xs-7">
                         <p class="b_t">Authenticated users can:</p>
-                        <p class="left_m">- Create new posts with title, body, category, keywords, image.</p>
+                        <p class="left_m">- Create new posts (with title, body, category, keywords, image).</p>
                         <p class="left_m">- Edit created posts.</p>
                         <p class="left_m">- Delete created posts.</p>
                         <p class="left_m">- Like/unlike posts.</p>
@@ -143,7 +145,7 @@
                     </div>
                 </div>
                 <hr />
-                <p>There still may be some errors and if any spotted feel free to <a href="http://finaltriumph.tk/" target="_blank">contact me</a> and let me know.</p>
+                <p>If any errors spotted, feel free to <a href="http://finaltriumph.tk/" target="_blank">contact me</a> and let me know.</p>
                 <p>Made by <a href="http://finaltriumph.tk/" target="_blank">FinalTriumph</a>, 2017</p>
             </div>
         </div>
