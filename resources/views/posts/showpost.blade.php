@@ -92,7 +92,7 @@
                         @else
                         <p1>Deleted User</p1><br />
                     @endif
-                    <small>{{ date('F d, Y', strtotime($post->created_at)) }}</small>
+                    <small>{{ date('F d, Y', strtotime($comment->created_at)) }}</small>
                     </div>
                     <br />
                     <p>{{ $comment->comment }}</p>
