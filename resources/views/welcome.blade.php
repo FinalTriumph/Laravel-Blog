@@ -145,8 +145,8 @@
                     </div>
                 </div>
                 <hr />
-                <p>If any errors spotted, feel free to <a href="http://finaltriumph.tk/" target="_blank">contact me</a> and let me know.</p>
-                <p>Made by <a href="http://finaltriumph.tk/" target="_blank">FinalTriumph</a>, 2017</p>
+                <p>If any errors spotted, feel free to <a href="http://finaltriumph.eu/contact" target="_blank">contact me</a> and let me know.</p>
+                <p>Made by <a href="http://finaltriumph.eu/" target="_blank">FinalTriumph</a>, 2017</p>
             </div>
         </div>
     </body>
